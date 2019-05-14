@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@mipmap/first"
+    tools:context=".Splash_Screen">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="@android:color/black"/>
+
+
+    <ImageView
+        android:id="@+id/imgView_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo"
+        />
+
+    <TextView
+        android:id="@+id/Makola"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:text="أكلك مضمون واطلب بيتي مسؤول"
+        android:textSize="35sp"
+        android:typeface="monospace"
+        android:layout_centerInParent="true"/>
+
+
+    <RelativeLayout
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2">
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/signInButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            app:cornerRadius="@color/fbutton_color_silver"
+            android:text="Sign In" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/signUpButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            app:cornerRadius="@color/fbutton_color_concrete"
+            android:text="Sign Up"
+         />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
