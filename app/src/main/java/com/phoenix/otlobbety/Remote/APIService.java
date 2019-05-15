@@ -1,7 +1,7 @@
 package com.phoenix.otlobbety.Remote;
 
+import com.phoenix.otlobbety.Model.DataMessage;
 import com.phoenix.otlobbety.Model.MyResponse;
-import com.phoenix.otlobbety.Model.Sender;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,6 +17,6 @@ public interface APIService {
     )
 
     @POST("fcm/send")
-    Call<MyResponse> sendNotification(@Body Sender body);
+    Call<MyResponse> sendNotification(@Body DataMessage body);
 
 }

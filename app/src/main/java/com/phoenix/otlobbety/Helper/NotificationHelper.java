@@ -64,4 +64,16 @@ public class NotificationHelper extends ContextWrapper {
 
 
     }
+    @TargetApi(Build.VERSION_CODES.O)
+    public Notification.Builder getMohsenAppNotificationChannel(String title, String body, Uri soundUri) {
+
+        return new Notification.Builder(getApplicationContext(), OTLOB_CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSound(soundUri)
+                .setAutoCancel(true);
+
+
+    }
 }

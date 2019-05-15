@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +25,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
+import com.phoenix.otlobbety.Model.DataMessage;
 import com.phoenix.otlobbety.Model.MyResponse;
-import com.phoenix.otlobbety.Model.Notification;
 import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.Model.Request;
-import com.phoenix.otlobbety.Model.Sender;
 import com.phoenix.otlobbety.Model.Token;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.ViewHolder.CartAdapter;
@@ -41,8 +39,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class Cart extends AppCompatActivity {
@@ -159,10 +159,18 @@ public class Cart extends AppCompatActivity {
                 {
                     Token serverToken = postSnapshot.getValue(Token.class);
 
-                    Notification notification = new Notification("OtlobBety","You have new Order"+order_number);
-                    Sender content = new Sender(serverToken.getToken(),notification);
+//                    Notification notification = new Notification("OtlobBety","You have new Order"+order_number);
+//                    Sender content = new Sender(serverToken.getToken(),notification);
+                    HashMap<String, String> dataSend = new HashMap<>();
+                    dataSend.put("title","Wasally Shokran");
+                    dataSend.put("message", "You have new Order" + order_number);
+                    DataMessage dataMessage = new DataMessage(serverToken.getToken(), dataSend);
 
-                    mApiService.sendNotification(content)
+                    String test = new Gson().toJson(dataMessage);
+                    Log.d("Content", test);
+
+
+                    mApiService.sendNotification(dataMessage)
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {

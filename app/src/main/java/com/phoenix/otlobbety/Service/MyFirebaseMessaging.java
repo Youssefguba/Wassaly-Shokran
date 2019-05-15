@@ -19,21 +19,27 @@ import com.phoenix.otlobbety.Splash_Screen;
 
 import androidx.core.app.NotificationCompat;
 
+import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            sendNotificationAPI26(remoteMessage);
-        } else {
-            sendNotification(remoteMessage);
+        if (remoteMessage.getData() != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                sendNotificationAPI26(remoteMessage);
+            } else {
+                sendNotification(remoteMessage);
+            }
         }
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Map<String, String> data = remoteMessage.getData();
+        String title = data.get("title");
+        String message = data.get("message");
+
         Intent intent = new Intent(this, Splash_Screen.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -41,8 +47,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         Uri defaultSeoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle(notification.getTitle())
-                .setContentText(notification.getBody())
+                .setContentTitle(title)
+                .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSeoundUri)
                 .setContentIntent(pendingIntent);
@@ -51,23 +57,38 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void sendNotificationAPI26(RemoteMessage remoteMessage) {
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
-        String title = notification.getTitle();
-        String content = notification.getBody();
+        Map<String, String> data = remoteMessage.getData();
+        String title = data.get("title");
+        String message = data.get("message");
 
-        Intent intent = new Intent(this, OrderStatus.class);
-        intent.putExtra(Common.PHONE_TEXT, Common.currentUser.getPhone());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent;
+        NotificationHelper helper;
+        Notification.Builder builder;
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (Common.currentUser != null) {
+            Intent intent = new Intent(this, OrderStatus.class);
+            intent.putExtra(Common.PHONE_TEXT, Common.currentUser.getPhone());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        NotificationHelper helper = new NotificationHelper(this);
-        Notification.Builder builder = helper.getMohsenAppNotificationChannel(title, content, pendingIntent, defaultSoundUri);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        //Generate new Random ID for notification to show all notification
-        helper.getManager().notify(new Random().nextInt(), builder.build());
+            helper = new NotificationHelper(this);
+            builder = helper.getMohsenAppNotificationChannel(title, message, pendingIntent, defaultSoundUri);
 
+            //Generate new Random ID for notification to show all notification
+            helper.getManager().notify(new Random().nextInt(), builder.build());
+
+
+        } else { // Fix crash if Notification send from news system (Common.currentUser == null)
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+            helper = new NotificationHelper(this);
+            builder = helper.getMohsenAppNotificationChannel(title, message, defaultSoundUri);
+
+            //Generate new Random ID for notification to show all notification
+            helper.getManager().notify(new Random().nextInt(), builder.build());
+        }
 
     }
 }
