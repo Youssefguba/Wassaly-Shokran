@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wasally Shokran</string>
+    <string name="app_name">Wasaly Shokran</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="nav_header_title" translatable="false">Android Studio</string>

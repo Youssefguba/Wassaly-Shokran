@@ -5,30 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:background="@mipmap/first"
+    android:orientation="horizontal"
     tools:context=".Splash_Screen">
+
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.7"
-        android:background="@android:color/black"/>
-
+        android:alpha="0.9"
+        android:background="@android:color/black" />
 
     <ImageView
         android:id="@+id/imgView_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/logo"
-        />
-
-    <TextView
-        android:id="@+id/Makola"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:src="@drawable/logo2"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:text="أكلك مضمون واطلب بيتي مسؤول"
@@ -55,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
-            app:cornerRadius="@color/fbutton_color_silver"
+            app:cornerRadius="@color/signUp"
             android:text="Sign In" />
 
         <info.hoang8f.widget.FButton

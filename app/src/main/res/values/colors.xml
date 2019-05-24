@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffff</color>
-    <color name="colorPrimary">#004d40</color>
-    <color name="colorPrimaryDark">#00251a</color>
-    <color name="colorAccent">#39796b</color>
-    <color name="signUp">#39796b</color>
+    <color name="colorPrimary">#F4523A</color>
+    <color name="colorPrimaryDark">#BE3D2D</color>
+    <color name="colorAccent">#5F4743</color>
+    <color name="signUp">#BE3D2D</color>
     <color name="signIn">#A9d440</color>
     <color name="overlayBackground">#222224</color>
     <color name="grey">#fd454545</color>
