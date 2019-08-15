@@ -1,8 +1,11 @@
 package com.phoenix.otlobbety;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -48,8 +50,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class Home extends AppCompatActivity
+public class Home extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     public final static String TAG = "HOME";
 
     //TODO NavigationDrawer >> RIGHT Orientation
@@ -75,8 +78,7 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("منطقة الشيخ زايد");
         toolbar.setNavigationIcon(R.drawable.ic_menu_vector);
-
-        setSupportActionBar(toolbar);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
@@ -92,6 +94,7 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         Retrofit retrofit = RetrofitClient.getInstance();
         myApi = retrofit.create(IMyApi.class);
         shimmerLayout = findViewById(R.id.shimmer_layout);
@@ -99,7 +102,6 @@ public class Home extends AppCompatActivity
         //set Name for user
         View headerView = navigationView.getHeaderView(0);
         txtFullName = headerView.findViewById(R.id.txtFullName);
-//        txtFullName.setText(Common.currentUser.getName());
 
         //Load menu
         recyclermenu = findViewById(R.id.menu_recyclerview);
@@ -183,6 +185,7 @@ public class Home extends AppCompatActivity
             protected void onBindViewHolder(@NonNull MenuViewHolder menuViewHolder, int i, @NonNull Category category) {
                 menuViewHolder.txtMenuName.setText(category.getName());
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
+                overrideFonts(getBaseContext(), menuViewHolder.txtMenuName);
 
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
 
@@ -219,8 +222,8 @@ public class Home extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -251,7 +254,8 @@ public class Home extends AppCompatActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
+        drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 
@@ -303,6 +307,22 @@ public class Home extends AppCompatActivity
         } catch (ActivityNotFoundException e) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + id));
             startActivity(intent);
+        }
+    }
+
+    private void overrideFonts(final Context context, final View v) {
+        try {
+            if (v instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) v;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    overrideFonts(context, child);
+                }
+            } else if (v instanceof TextView) {
+                ((TextView) v).setTypeface(Typeface.createFromAsset(context.getAssets(), "stcregular.ttf"));
+
+            }
+        } catch (Exception e) {
         }
     }
 }

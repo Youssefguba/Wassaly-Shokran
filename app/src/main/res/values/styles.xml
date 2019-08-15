@@ -34,12 +34,26 @@
         <item name="android:fontFamily">@font/israrsyria</item>
     </style>
 
+    <style name="Material.Drawable.NavigationDrawer.Light">
+        <item name="android:fontFamily">@font/israrsyria</item>
+
+    </style>
+
     <style name="AppTheme.Home">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">true</item>
     </style>
+
+
+    <style name="MenuItemStyle">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+
 
     <style name="CollapsAppbar" parent="Base.TextAppearance.AppCompat.Medium">
         <item name="android:textSize">24sp</item>

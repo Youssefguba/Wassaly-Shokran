@@ -1,6 +1,8 @@
 package com.phoenix.otlobbety;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -153,6 +156,7 @@ public class SubCategory extends AppCompatActivity {
                 .setQuery(retrieveData, Category.class)
                 .build();
 
+
         subCategoryRef.child(categoryId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -193,6 +197,10 @@ public class SubCategory extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MenuViewHolder menuViewHolder, int i, @NonNull Category category) {
                 menuViewHolder.txtMenuName.setText(category.getName());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    overrideFonts(getBaseContext(), menuViewHolder.txtMenuName);
+                }
+
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
                     Intent itemListAct = new Intent(SubCategory.this, ItemsList.class);
@@ -202,9 +210,11 @@ public class SubCategory extends AppCompatActivity {
                     //get the name of Card item and set it as a toolbar title in ItemsList Activity.
 
                     Common.nameOfSubCategory = adapter.getRef(position).child(categoryId).child(category.getName()).getKey().toString();
-//                    Uri uri = Uri.parse(adapter.getRef(position).child(categoryId).child(category.getImage()).getKey());
+//                  Uri uri = Uri.parse(adapter.getRef(position).child(categoryId).child(category.getImage()).getKey());
+
                     Log.e("SubCategory", String.valueOf(Uri.parse(String.valueOf(adapter.getRef(position).child(categoryId).child(category.getImage())))));
-//        Log.e("SubCategory", String.valueOf(adapter.getRef(position).child(categoryId).child(String.valueOf(String.valueOf(category.getImage()))).toString()));
+
+//                  Log.e("SubCategory", String.valueOf(adapter.getRef(position).child(categoryId).child(String.valueOf(String.valueOf(category.getImage()))).toString()));
 
                     startActivity(itemListAct);
                 });
@@ -217,5 +227,22 @@ public class SubCategory extends AppCompatActivity {
         shimmerLayout.stopShimmerAnimation();
         shimmerLayout.setVisibility(View.GONE);
 
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void overrideFonts(final Context context, final View v) {
+        try {
+            if (v instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) v;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    overrideFonts(context, child);
+                }
+            } else if (v instanceof TextView) {
+                ((TextView) v).setTypeface(Typeface.createFromAsset(context.getAssets(), "stcregular.ttf"));
+            }
+        } catch (Exception e) {
+        }
     }
 }

@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
     <include
         layout="@layout/app_bar_home"
@@ -16,12 +15,12 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
+        style="@style/Material.Drawable.NavigationDrawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        android:theme="@style/Material.Drawable.NavigationDrawer"
+        android:layout_gravity="right"
         app:itemIconTint="#000"
         app:itemTextColor="#000"
         app:headerLayout="@layout/nav_header_home"
