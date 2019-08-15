@@ -1,6 +1,7 @@
 package com.phoenix.otlobbety;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -30,6 +35,8 @@ import com.phoenix.otlobbety.Retrofit.IMyApi;
 import com.phoenix.otlobbety.Retrofit.RetrofitClient;
 import com.phoenix.otlobbety.ViewHolder.MenuViewHolder;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 import io.supercharge.shimmerlayout.ShimmerLayout;
 import retrofit2.Call;
@@ -113,8 +120,6 @@ public class SubCategory extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
                 return;
-
-
             }
         }
     }
@@ -148,6 +153,35 @@ public class SubCategory extends AppCompatActivity {
                 .setQuery(retrieveData, Category.class)
                 .build();
 
+        subCategoryRef.child(categoryId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                HashMap list = (HashMap) dataSnapshot.getValue();
+                Log.e("SubCategory", String.valueOf(list.get("name")));
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
             @NonNull
             @Override
@@ -160,13 +194,23 @@ public class SubCategory extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull MenuViewHolder menuViewHolder, int i, @NonNull Category category) {
                 menuViewHolder.txtMenuName.setText(category.getName());
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
-
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
-                    startActivity(new Intent(SubCategory.this, ItemsList.class));
-                });
+                    Intent itemListAct = new Intent(SubCategory.this, ItemsList.class);
+                    itemListAct.putExtra("SubCategoryId", adapter.getRef(position).getKey());
 
+                    //to set name of subcategory in Public String to pass it between this activity and itemList Activity to
+                    //get the name of Card item and set it as a toolbar title in ItemsList Activity.
+
+                    Common.nameOfSubCategory = adapter.getRef(position).child(categoryId).child(category.getName()).getKey().toString();
+//                    Uri uri = Uri.parse(adapter.getRef(position).child(categoryId).child(category.getImage()).getKey());
+                    Log.e("SubCategory", String.valueOf(Uri.parse(String.valueOf(adapter.getRef(position).child(categoryId).child(category.getImage())))));
+//        Log.e("SubCategory", String.valueOf(adapter.getRef(position).child(categoryId).child(String.valueOf(String.valueOf(category.getImage()))).toString()));
+
+                    startActivity(itemListAct);
+                });
             }
         };
+
         adapter.startListening();
         recyclermenu.setAdapter(adapter);
         swipeRefreshLayout.setRefreshing(false);

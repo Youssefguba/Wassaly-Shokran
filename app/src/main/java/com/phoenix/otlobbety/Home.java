@@ -183,6 +183,7 @@ public class Home extends AppCompatActivity
             protected void onBindViewHolder(@NonNull MenuViewHolder menuViewHolder, int i, @NonNull Category category) {
                 menuViewHolder.txtMenuName.setText(category.getName());
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
+
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
 
                     //Get CategoryId and send to new Activity

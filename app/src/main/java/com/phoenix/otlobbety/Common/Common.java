@@ -17,6 +17,9 @@ public class Common {
     public static Request currentRequest;
 
     public static String nameOfCategory;
+    public static String nameOfSubCategory;
+
+    public static String imgOfSubCategory;
 
     private static final String BASE_URL = "https://fcm.googleapis.com/";
 
