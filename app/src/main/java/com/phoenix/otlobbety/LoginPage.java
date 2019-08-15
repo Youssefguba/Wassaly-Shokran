@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,19 +18,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.User;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import info.hoang8f.widget.FButton;
 import io.paperdb.Paper;
 
-public class Splash_Screen extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity {
 
     FButton loginshow, signupshow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash__screen);
+        setContentView(R.layout.activity_login_page);
 
         FirebaseApp.initializeApp(this);
         Paper.init(this);
@@ -38,7 +39,7 @@ public class Splash_Screen extends AppCompatActivity {
         loginshow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent SuperIntentSignIn = new Intent(Splash_Screen.this,SignIn.class);
+                Intent SuperIntentSignIn = new Intent(LoginPage.this, SignIn.class);
                 startActivity(SuperIntentSignIn);
             }
         });
@@ -46,7 +47,7 @@ public class Splash_Screen extends AppCompatActivity {
         signupshow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent SuperIntentSignUp = new Intent(Splash_Screen.this,SignUp.class);
+                Intent SuperIntentSignUp = new Intent(LoginPage.this, SignUp.class);
                 startActivity(SuperIntentSignUp);
             }
         });
@@ -82,18 +83,18 @@ public class Splash_Screen extends AppCompatActivity {
                         User user = dataSnapshot.child(phone).getValue(User.class);
                         user.setPhone(phone); //set phone
                         if (user.getPassword().equals(pwd)) {
-                            Intent homeIntent = new Intent(Splash_Screen.this, Home.class);
+                            Intent homeIntent = new Intent(LoginPage.this, Home.class);
                             Common.currentUser = user;
                             homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(homeIntent);
                             finish();
                         } else {
-                            Toast.makeText(Splash_Screen.this, "Wrong Password!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginPage.this, "Wrong Password!!", Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
                         mDialog.dismiss();
-                        Toast.makeText(Splash_Screen.this, "Wrong Phone Number!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginPage.this, "Wrong Phone Number!!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -103,7 +104,7 @@ public class Splash_Screen extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(Splash_Screen.this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginPage.this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
             return ;
         }
     }

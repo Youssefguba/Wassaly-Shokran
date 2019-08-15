@@ -1,10 +1,5 @@
 package com.phoenix.otlobbety;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import info.hoang8f.widget.FButton;
-import io.paperdb.Paper;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -15,6 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,8 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.User;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.rey.material.drawable.CheckBoxDrawable;
 import com.rey.material.widget.CheckBox;
+
+import info.hoang8f.widget.FButton;
+import io.paperdb.Paper;
 
 public class SignIn extends AppCompatActivity {
     MaterialEditText  edtPhone,edtPassword;
@@ -69,6 +69,7 @@ public class SignIn extends AppCompatActivity {
 
                 if (Common.isConnectedToInternet(getBaseContext())) {
 
+
                     //Save user & password
                     if (ckbRemember.isChecked())
                     {
@@ -101,8 +102,6 @@ public class SignIn extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(SignIn.this, "Wrong Password!!", Toast.LENGTH_SHORT).show();
                                     txtforgetpasword.setVisibility(View.VISIBLE);
-
-
 
                                 }
                             } else {

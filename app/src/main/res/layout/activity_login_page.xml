@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/first"
     android:orientation="horizontal"
-    tools:context=".Splash_Screen">
+    tools:context=".LoginPage">
 
 
     <ImageView
@@ -25,7 +25,6 @@
         android:src="@drawable/logo2"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:text="أكلك مضمون واطلب بيتي مسؤول"
         android:textSize="35sp"
         android:typeface="monospace"
         android:layout_centerInParent="true"/>

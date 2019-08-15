@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import com.phoenix.otlobbety.Model.Order;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +64,24 @@ public class Database extends SQLiteAssetHelper {
         SQLiteDatabase db = getReadableDatabase();
         String query = String.format("DELETE FROM OrderDetail");
         db.execSQL(query);
+    }
+
+    public int getCountCarts() {
+        int count = 0;
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+//        String query = String.format("SELECT COUNT(*) FROM OrderDetails WHERE UserPhone='%s'");
+
+//        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+//        if (cursor.moveToFirst()) {
+//
+//            do {
+//                count = cursor.getInt(0);
+//            } while (cursor.moveToNext());
+//
+//        }
+
+        return count;
     }
 
 }

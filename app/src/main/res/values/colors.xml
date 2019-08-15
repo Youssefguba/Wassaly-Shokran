@@ -11,7 +11,7 @@
     <color name="overlayActionbar">#0e0d0e</color>
     <color name="bgRowBackground">#FA315B</color>
     <color name="toolbarcolor">#FF0D0E0E</color>
-
+    <color name="placeholderBG">#ddd</color>
 
     <color name="fbutton_color_turquoise">#1abc9c</color>
     <color name="fbutton_color_green_sea">#16a085</color>

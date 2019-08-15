@@ -1,24 +1,17 @@
 package com.phoenix.otlobbety;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.Request;
 import com.phoenix.otlobbety.ViewHolder.OrderViewHolder;
-
-import static com.phoenix.otlobbety.Common.Common.convertCodeToStatus;
-import static com.phoenix.otlobbety.Common.Common.currentRequest;
-import static com.phoenix.otlobbety.Common.Common.currentUser;
 
 public class OrderStatus extends AppCompatActivity {
 
@@ -46,30 +39,30 @@ public class OrderStatus extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        loadOrders(Common.currentUser.getPhone());
+//        loadOrders(Common.currentUser.getPhone());
 
     }
-    private void loadOrders(String phone) {
-            adapter = new FirebaseRecyclerAdapter<Request, OrderViewHolder>(
-                    Request.class, R.layout.order_layout, OrderViewHolder.class,
-
-                    requests.orderByChild("phone").equalTo(phone)
-
-
-            ) {
-                @Override
-                protected void populateViewHolder(OrderViewHolder orderViewHolder, Request request, int position) {
-
-
-                             orderViewHolder.txtOrderId.setText(adapter.getRef(position).getKey());
-                             orderViewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(request.getStatus()));
-                             orderViewHolder.txtOrderAddress.setText(request.getAddress());
-                             orderViewHolder.txtOrderPhone.setText(request.getPhone());
-
-
-
-                }
-            };
-            recyclerView.setAdapter(adapter);
-        }
+//    private void loadOrders(String phone) {
+//            adapter = new FirebaseRecyclerAdapter<Request, OrderViewHolder>(
+//                    Request.class, R.layout.order_layout, OrderViewHolder.class,
+//
+//                    requests.orderByChild("phone").equalTo(phone)
+//
+//
+//            ) {
+//                @Override
+//                protected void populateViewHolder(OrderViewHolder orderViewHolder, Request request, int position) {
+//
+//
+//                             orderViewHolder.txtOrderId.setText(adapter.getRef(position).getKey());
+//                             orderViewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(request.getStatus()));
+//                             orderViewHolder.txtOrderAddress.setText(request.getAddress());
+//                             orderViewHolder.txtOrderPhone.setText(request.getPhone());
+//
+//
+//
+//                }
+//            };
+//            recyclerView.setAdapter(adapter);
+//        }
 }

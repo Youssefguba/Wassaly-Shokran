@@ -1,15 +1,5 @@
 package com.phoenix.otlobbety;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import info.hoang8f.widget.FButton;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +38,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
+import info.hoang8f.widget.FButton;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Cart extends AppCompatActivity {
@@ -73,23 +73,19 @@ public class Cart extends AppCompatActivity {
         requests = database.getReference("Requests");
 
         //Init
-        recyclerView = (RecyclerView)findViewById(R.id.listCart);
+        recyclerView = findViewById(R.id.listCart);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        noThingtext = (TextView)findViewById(R.id.Nothingtext);
-        txtTotalPrice = (TextView)findViewById(R.id.total);
-        btnPlace = (FButton)findViewById(R.id.btnPlaceOrder);
+        noThingtext = findViewById(R.id.Nothingtext);
+        txtTotalPrice = findViewById(R.id.total);
+        btnPlace = findViewById(R.id.btnPlaceOrder);
 
-        btnPlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(cart.size() > 0) {
-                    showAlertDialog();
-                }
-                else {
-                    Toast.makeText(Cart.this, "Your Cart is Empty !!!", Toast.LENGTH_SHORT).show();
-                }
+        btnPlace.setOnClickListener(v -> {
+            if (cart.size() > 0) {
+                showAlertDialog();
+            } else {
+                Toast.makeText(Cart.this, "Your Cart is Empty !!!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -98,7 +94,6 @@ public class Cart extends AppCompatActivity {
     }
 
     private void showAlertDialog() {
-
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
             alertDialog.setTitle("One more step!");
             alertDialog.setMessage("Enter your address");
@@ -106,8 +101,8 @@ public class Cart extends AppCompatActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         View order_address_comment = inflater.inflate(R.layout.order_address_comment,null);
 
-        final MaterialEditText edtAddress = (MaterialEditText)order_address_comment.findViewById(R.id.edtAddress);
-        final MaterialEditText edtComment = (MaterialEditText)order_address_comment.findViewById(R.id.edtComment);
+        final MaterialEditText edtAddress = order_address_comment.findViewById(R.id.edtAddress);
+        final MaterialEditText edtComment = order_address_comment.findViewById(R.id.edtComment);
 
             alertDialog.setView(order_address_comment);
             alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
@@ -210,13 +205,13 @@ public class Cart extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
-        //Calcuate total price
+        //Calculate total price
         float total = 0;
         int shippingPrice = 12;
         for (Order order : cart)
             total+=(Float.parseFloat(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
 
-        Locale local = new Locale("ar","EG"); // غيرها للعربي عشان متنساش
+        Locale local = new Locale("ar", "EG");
         NumberFormat fmt  = NumberFormat.getCurrencyInstance(local);
 
         txtTotalPrice.setVisibility(View.GONE);

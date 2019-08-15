@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipe_layout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Home"
-    tools:showIn="@layout/app_bar_home">
+    tools:context=".SubCategory"
+    tools:showIn="@layout/activity_sub_category">
+
+    <io.supercharge.shimmerlayout.ShimmerLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:shimmer_animation_duration="1200">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_place_holder_layout" />
+
+            <include layout="@layout/item_place_holder_layout" />
+
+            <include layout="@layout/item_place_holder_layout" />
+
+            <include layout="@layout/item_place_holder_layout" />
+
+            <include layout="@layout/item_place_holder_layout" />
+
+        </LinearLayout>
+
+
+    </io.supercharge.shimmerlayout.ShimmerLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".SubCategory"
+        tools:showIn="@layout/activity_sub_category">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="2dp"
@@ -17,7 +52,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical">
 
-
     </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
