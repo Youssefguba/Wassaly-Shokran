@@ -5,7 +5,9 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="right"
     android:fitsSystemWindows="true"
+    android:layoutDirection="rtl"
     tools:openDrawer="end">
 
     <include
@@ -15,15 +17,16 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        style="@style/Material.Drawable.NavigationDrawer"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
+        android:layout_gravity="right"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        android:layout_gravity="right"
-        app:itemIconTint="#000"
-        app:itemTextColor="#000"
+        android:layoutDirection="rtl"
         app:headerLayout="@layout/nav_header_home"
+        app:itemIconTint="#000"
+        app:itemTextAppearance="@style/IsrarsyriaTextViewStyle"
+        app:itemTextColor="#000"
         app:menu="@menu/activity_home_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

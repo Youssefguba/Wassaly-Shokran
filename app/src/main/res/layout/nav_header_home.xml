@@ -18,17 +18,9 @@
         android:layout_height="119dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_marginBottom="26dp"
         android:layout_gravity="center"
         app:srcCompat="@mipmap/logo2" />
-
-    <TextView
-        android:id="@+id/txtFullName"
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/white" />
 
 
 </LinearLayout>

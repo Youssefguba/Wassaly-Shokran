@@ -36,6 +36,16 @@
 
     <style name="Material.Drawable.NavigationDrawer.Light">
         <item name="android:fontFamily">@font/israrsyria</item>
+    </style>
+
+    <style name="IsrarsyriaTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/israrsyria</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="CollapsAppbarItemList">
+        <item name="android:color">@android:color/transparent</item>]
+        <item name="android:fontFamily">@font/israrsyria</item>
 
     </style>
 

@@ -1,6 +1,5 @@
 package com.phoenix.otlobbety;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -50,7 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class Home extends Activity
+public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "HOME";
@@ -78,7 +78,10 @@ public class Home extends Activity
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("منطقة الشيخ زايد");
         toolbar.setNavigationIcon(R.drawable.ic_menu_vector);
+
+        //To change the direction of activity - navigation drawer
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        setSupportActionBar(toolbar);
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
@@ -93,7 +96,7 @@ public class Home extends Activity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        overrideFonts(getBaseContext(), navigationView);
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myApi = retrofit.create(IMyApi.class);
@@ -101,7 +104,7 @@ public class Home extends Activity
 
         //set Name for user
         View headerView = navigationView.getHeaderView(0);
-        txtFullName = headerView.findViewById(R.id.txtFullName);
+//        txtFullName = headerView.findViewById(R.id.txtFullName);
 
         //Load menu
         recyclermenu = findViewById(R.id.menu_recyclerview);
@@ -254,7 +257,7 @@ public class Home extends Activity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
+        overrideFonts(getBaseContext(), drawer);
         drawer.closeDrawer(GravityCompat.END);
         return true;
     }

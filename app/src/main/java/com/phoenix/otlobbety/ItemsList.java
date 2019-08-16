@@ -61,7 +61,7 @@ public class ItemsList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // show The Image in a ImageView
-        new DownloadImageTask((ImageView) findViewById(R.id.restaurant_img))
+        new DownloadImageTask(findViewById(R.id.restaurant_img))
                 .execute(Common.imgOfSubCategory);
 
         //Firebase Initialize

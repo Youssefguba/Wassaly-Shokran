@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     tools:context=".ItemsList">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true"
-            app:collapsedTitleTextAppearance="@color/fbutton_color_transparent"
-            app:contentScrim="#0e0d0e"
+            app:collapsedTitleTextAppearance="@style/CollapsAppbarItemList"
+            app:contentScrim="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView

@@ -3,7 +3,6 @@ package com.phoenix.otlobbety;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +23,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -39,8 +34,6 @@ import com.phoenix.otlobbety.Retrofit.RetrofitClient;
 import com.phoenix.otlobbety.ViewHolder.MenuViewHolder;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-
 import io.supercharge.shimmerlayout.ShimmerLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,10 +42,11 @@ import retrofit2.Retrofit;
 
 public class SubCategory extends AppCompatActivity {
 
-    public final static String TAG = "SUBCATEGORY";
+    public final static String TAG = "SubCategory";
     public String path = "";
     FirebaseDatabase database;
     DatabaseReference subCategoryRef;
+    DatabaseReference categoryRef;
     RecyclerView recyclermenu;
     RecyclerView.LayoutManager layoutManager;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -72,6 +66,7 @@ public class SubCategory extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         subCategoryRef = database.getReference("SubCategory");
+        categoryRef = database.getReference("Category");
 
         Toolbar toolbar = findViewById(R.id.toolbarOfSubCategory);
         toolbar.setTitle(Common.nameOfCategory);
@@ -156,36 +151,6 @@ public class SubCategory extends AppCompatActivity {
                 .setQuery(retrieveData, Category.class)
                 .build();
 
-
-        subCategoryRef.child(categoryId).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                HashMap list = (HashMap) dataSnapshot.getValue();
-                Log.e("SubCategory", String.valueOf(list.get("name")));
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
             @NonNull
             @Override
@@ -209,12 +174,8 @@ public class SubCategory extends AppCompatActivity {
                     //to set name of subcategory in Public String to pass it between this activity and itemList Activity to
                     //get the name of Card item and set it as a toolbar title in ItemsList Activity.
 
-                    Common.nameOfSubCategory = adapter.getRef(position).child(categoryId).child(category.getName()).getKey().toString();
-//                  Uri uri = Uri.parse(adapter.getRef(position).child(categoryId).child(category.getImage()).getKey());
-
-                    Log.e("SubCategory", String.valueOf(Uri.parse(String.valueOf(adapter.getRef(position).child(categoryId).child(category.getImage())))));
-
-//                  Log.e("SubCategory", String.valueOf(adapter.getRef(position).child(categoryId).child(String.valueOf(String.valueOf(category.getImage()))).toString()));
+                    Common.nameOfSubCategory = adapter.getRef(position).child(categoryId).child(category.getName()).getKey();
+                    Common.imgOfSubCategory = category.getImage();
 
                     startActivity(itemListAct);
                 });
