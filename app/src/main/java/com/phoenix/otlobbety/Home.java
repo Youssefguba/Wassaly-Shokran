@@ -55,8 +55,6 @@ public class Home extends AppCompatActivity
 
     public final static String TAG = "HOME";
 
-    //TODO NavigationDrawer >> RIGHT Orientation
-    //TODO buttons in NavigationDrawer - Font - Clickable
 
     FirebaseDatabase database;
     DatabaseReference category;
