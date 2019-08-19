@@ -18,6 +18,9 @@ public class Common {
 
     public static String nameOfCategory;
     public static String nameOfSubCategory;
+    public static String subCategoryID;
+    public static String childItemId;
+    public static String indexOfItemInArray;
 
     public static String imgOfSubCategory;
 

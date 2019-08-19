@@ -1,5 +1,7 @@
 package com.phoenix.otlobbety;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -27,7 +29,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.phoenix.otlobbety.Adapter.ExpandableAdapter;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
-import com.phoenix.otlobbety.Model.Food;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,10 +37,7 @@ import java.util.List;
 
 public class ItemsList extends AppCompatActivity {
 
-    //TODO Photo and Name of Restaurant
-    //TODO Get Intent - categoryId
-    //TODO Make a children clickable
-
+    public static final String TAG = "ItemsList";
     View actionView;
     TextView textCartItemCount;
     ImageView subCategoryImage;
@@ -56,6 +54,7 @@ public class ItemsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_list);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(Common.nameOfSubCategory);
         setSupportActionBar(toolbar);
@@ -79,6 +78,7 @@ public class ItemsList extends AppCompatActivity {
         }
 
         expandableListView = findViewById(R.id.exp_list);
+
         SetStandardGroups();
         expandableAdapter = new ExpandableAdapter(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(expandableAdapter);
@@ -119,32 +119,52 @@ public class ItemsList extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
-
-        myRef.child("pharmacy").addChildEventListener(new ChildEventListener() {
+        myRef.child(Common.subCategoryID).addChildEventListener(new ChildEventListener() {
             int counter = 0;
             ArrayList childItem;
-
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 listDataHeader.add(dataSnapshot.getKey());
                 childItem = new ArrayList();
-
+                Log.e(TAG, "Data Header :" + listDataHeader);
+                Log.e(TAG, "Data SnapShot :" + dataSnapshot);
+                Log.e(TAG, "Data Items :" + childItem);
                 //This " For each " loop to search for values in node and get the value of key that called " name "
-                // and put it in Child of parent.
+                // and put it in child of parent.
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    HashMap<String, Food> childNames = (HashMap<String, Food>) ds.getValue();
-                    Log.e("TAG", "childNames :" + childNames.values());
-
+                    HashMap childNames = (HashMap) ds.getValue();
                     childItem.add(childNames.get("name"));
-                    Log.e("TAG", "childNames :" + childNames.get("name"));
                 }
-
                 listDataChild.put(listDataHeader.get(counter), childItem);
                 counter++;
 
-                Log.e("TAG", "counter :" + counter);
+                // Make child item clickable..
+                expandableListView.setOnChildClickListener((expandableListView, view, groupPosition, childPosition, id) -> {
+
+                    //To Intent for Food Details Activity
+                    Intent childIntent = new Intent(ItemsList.this, FoodDetails.class);
+                    String itemId = (String) listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+
+                    /*
+                     * Store the name of Array List in Common.childItemId to retrieve all of List.
+                     * Store the index of List in Common.indexOfItemInArray to show the correct ,
+                     * data in Food details activity when clicked on child item.
+                     *
+                     */
+
+                    Common.childItemId = listDataHeader.get(groupPosition);
+                    Common.indexOfItemInArray = String.valueOf(childPosition);
+
+                    childIntent.putExtra("childItemID", itemId);
+                    startActivity(childIntent);
+
+                    return false;
+                });
+
                 expandableAdapter.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -165,10 +185,11 @@ public class ItemsList extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
+        DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
 

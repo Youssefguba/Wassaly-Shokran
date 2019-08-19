@@ -2,7 +2,7 @@ package com.phoenix.otlobbety;
 
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,23 +19,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.phoenix.otlobbety.Common.Common;
-import com.phoenix.otlobbety.Database.Database;
 import com.phoenix.otlobbety.Model.Food;
-import com.phoenix.otlobbety.Model.Order;
 import com.squareup.picasso.Picasso;
 
-public class FoodDetails extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-    TextView foodname,foodprice,fooddescription,fooddiscount;
+public class FoodDetails extends AppCompatActivity {
+    public static final String TAG = "FoodDetails";
+    TextView foodname, foodprice, fooddescription, fooddiscount;
     ImageView foodimage;
     CollapsingToolbarLayout cooCollapsingToolbarLayout;
     FloatingActionButton btnCart;
     ElegantNumberButton numberButton;
 
-    String foodId="";
+    List<String> listDataHeader;
+    HashMap<String, ArrayList> listDataChild;
+
+    String foodId = "";
 
     FirebaseDatabase database;
-    DatabaseReference foods;
+    DatabaseReference myRef;
 
     Food currentFood;
 
@@ -45,74 +50,75 @@ public class FoodDetails extends AppCompatActivity {
         setContentView(R.layout.activity_food_details);
 
         //Firebase
+        //Firebase Initialize
         database = FirebaseDatabase.getInstance();
-        foods = database.getReference("Foods");
+        myRef = database.getReference("ExpandableList");
 
         //InitView
-        numberButton = (ElegantNumberButton)findViewById(R.id.number_button);
-        btnCart = (FloatingActionButton)findViewById(R.id.btnCart);
+        numberButton = findViewById(R.id.number_button);
 
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Database(getBaseContext()).addToCart(new Order(
-                        foodId,
-                        currentFood.getName(),
-                        numberButton.getNumber(),
-                        currentFood.getPrice(),
-                        currentFood.getDiscount()
-            ));
-                Toast.makeText(FoodDetails.this, "Added to Cart", Toast.LENGTH_SHORT).show();
-                finish();
+//        btnCart.setOnClickListener(v -> {
+//            new Database(getBaseContext()).addToCart(new Order(
+//                    foodId,
+//                    currentFood.getName(),
+//                    numberButton.getNumber(),
+//                    currentFood.getPrice(),
+//                    currentFood.getDiscount()
+////            ));
+//            Toast.makeText(FoodDetails.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+//            finish();
+//
+//        });
 
-            }
-        });
+        fooddescription = findViewById(R.id.food_description);
+        foodname = findViewById(R.id.food_name);
+        foodprice = findViewById(R.id.food_price);
+        fooddiscount = findViewById(R.id.food_discount);
+        foodimage = findViewById(R.id.img_food);
 
-        fooddescription = (TextView)findViewById(R.id.food_description);
-        foodname = (TextView)findViewById(R.id.food_name);
-        foodprice= (TextView)findViewById(R.id.food_price);
-        fooddiscount = (TextView) findViewById(R.id.food_discount);
-        foodimage = (ImageView) findViewById(R.id.img_food);
-
-        cooCollapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing);
+        cooCollapsingToolbarLayout = findViewById(R.id.collapsing);
         cooCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsAppbar);
         cooCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsAppbar);
 
         //Get Food Id Intent
-        if(getIntent() != null)
-            foodId = getIntent().getStringExtra("FoodId");
-        if(! foodId.isEmpty())
-        {
-            if(Common.isConnectedToInternet(getBaseContext()))
-                getDetailFood(foodId);
-            else{
+        if (getIntent() != null)
+            foodId = getIntent().getStringExtra("childItemID");
+        if (!foodId.isEmpty()) {
+
+            if (Common.isConnectedToInternet(getBaseContext()))
+                getDetailsOfFood();
+            else {
                 Toast.makeText(this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
     }
 
-    private void getDetailFood(String foodId) {
-        foods.child(foodId).addValueEventListener(new ValueEventListener() {
+
+    private void getDetailsOfFood() {
+
+        myRef.child(Common.subCategoryID).child(Common.childItemId).child(Common.indexOfItemInArray).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 currentFood = dataSnapshot.getValue(Food.class);
-                Picasso.with(getBaseContext()).load(currentFood.getImage())
-                        .into(foodimage);
+                try {
+                    Picasso.with(getBaseContext()).load(currentFood.getImage())
+                            .into(foodimage);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
 
                 cooCollapsingToolbarLayout.setTitle(currentFood.getName());
-
                 foodprice.setText(currentFood.getPrice());
                 foodname.setText(currentFood.getName());
-                fooddescription.setText(" الوصف : "+currentFood.getDescription());
+                fooddescription.setText(" الوصف : " + currentFood.getDescription());
                 fooddiscount.setPaintFlags(fooddiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 fooddiscount.setText(currentFood.getDiscount());
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

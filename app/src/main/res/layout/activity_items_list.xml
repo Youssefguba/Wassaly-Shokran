@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true"
-            app:collapsedTitleTextAppearance="@style/CollapsAppbarItemList"
+            app:collapsedTitleTextAppearance="@style/CollapsAppbar"
             app:contentScrim="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -51,6 +51,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fillViewport="true"
+        android:layoutDirection="ltr"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout

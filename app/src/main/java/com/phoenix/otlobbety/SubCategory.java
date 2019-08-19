@@ -43,7 +43,6 @@ import retrofit2.Retrofit;
 public class SubCategory extends AppCompatActivity {
 
     public final static String TAG = "SubCategory";
-    public String path = "";
     FirebaseDatabase database;
     DatabaseReference subCategoryRef;
     DatabaseReference categoryRef;
@@ -100,6 +99,7 @@ public class SubCategory extends AppCompatActivity {
                 return;
             }
         });
+
         swipeRefreshLayout.post(() -> {
             if (Common.isConnectedToInternet(SubCategory.this)) {
                 fetchData(categoryId);
@@ -171,11 +171,11 @@ public class SubCategory extends AppCompatActivity {
                     Intent itemListAct = new Intent(SubCategory.this, ItemsList.class);
                     itemListAct.putExtra("SubCategoryId", adapter.getRef(position).getKey());
 
-                    //to set name of subcategory in Public String to pass it between this activity and itemList Activity to
-                    //get the name of Card item and set it as a toolbar title in ItemsList Activity.
-
+                    //To Get name and Image of Cardview then pass it to ItemsList Activity..
                     Common.nameOfSubCategory = adapter.getRef(position).child(categoryId).child(category.getName()).getKey();
                     Common.imgOfSubCategory = category.getImage();
+                    Common.subCategoryID = adapter.getRef(position).getKey();
+                    Log.e(TAG, adapter.getRef(position).getKey());
 
                     startActivity(itemListAct);
                 });

@@ -7,44 +7,37 @@
     tools:context=".FoodDetails">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/app_bar_layout"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true"
-        >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true"
-            android:outlineAmbientShadowColor="@android:color/black"
-            android:outlineSpotShadowColor="@android:color/black"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="#0e0d0e"
             app:collapsedTitleTextAppearance="@color/fbutton_color_transparent"
-            >
+            app:contentScrim="#0e0d0e"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
             <ImageView
                 android:id="@+id/img_food"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                />
+                app:layout_collapseMode="parallax" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:title="Food Name"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/Theme.AppCompat.Light"
+                android:title="Food Name"
                 app:layout_collapseMode="parallax"
-                android:stateListAnimator="@animator/appbar_not_elevated"
-                />
+                app:popupTheme="@style/Theme.AppCompat.Light" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -52,22 +45,21 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="5dp"
-                app:cardUseCompatPadding="true"
-                >
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="411dp"
@@ -90,14 +82,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
-                            android:layout_marginLeft="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
+                            android:layout_marginLeft="20dp"
+                            android:text="ج.م"
                             android:textColor="@android:color/black"
-                            android:text="ج.م"/>
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/food_price"
                             android:layout_width="wrap_content"
@@ -106,12 +100,13 @@
                             android:textColor="@android:color/black"
                             android:textSize="30sp"
                             android:textStyle="normal" />
+
                         <TextView
-                            android:layout_marginLeft="15dp"
                             android:id="@+id/food_discount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
+                            android:layout_marginLeft="15dp"
                             android:layout_marginTop="12dp"
                             android:foregroundGravity="right"
                             android:gravity="center"

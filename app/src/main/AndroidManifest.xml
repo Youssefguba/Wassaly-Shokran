@@ -25,7 +25,9 @@
         </activity>
 
 
-        <activity android:name=".SubCategory">
+        <activity
+            android:name=".SubCategory"
+            android:label="القائمة">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.phoenix.otlobbety.Home" />
