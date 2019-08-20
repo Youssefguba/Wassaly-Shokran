@@ -32,11 +32,12 @@
                 android:id="@+id/cart_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:gravity="center_vertical|start"
                 android:paddingBottom="1dp"
-                android:text="Food Name"
-                android:textAllCaps="true"
+                android:fontFamily="@font/stcregular"
+                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -51,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
+                    android:textColor="@android:color/black"
                     android:text="الكمية" />
 
 
@@ -88,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-
+                    android:textColor="@android:color/black"
                     />
 
                 <TextView
@@ -104,6 +106,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
             </LinearLayout>

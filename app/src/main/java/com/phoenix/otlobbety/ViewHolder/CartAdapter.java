@@ -1,6 +1,7 @@
 package com.phoenix.otlobbety.ViewHolder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.phoenix.otlobbety.Cart;
 import com.phoenix.otlobbety.Common.Common;
+import com.phoenix.otlobbety.Database.Database;
 import com.phoenix.otlobbety.Interface.ItemClickListener;
 import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.R;
@@ -23,10 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener , View.OnCreateContextMenuListener {
+class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
-    public TextView txt_cart_name,txt_price;
-    public ImageView img_cart_count;
+    public TextView txt_cart_name, itemPrice, totalOfAllItems, totalOfOneItem;
+    public ImageView cartImage;
+    ElegantNumberButton quantityButton;
 
     private ItemClickListener itemClickListener;
 
@@ -34,7 +38,11 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public CartViewHolder(@NonNull View itemView) {
         super(itemView);
         txt_cart_name = itemView.findViewById(R.id.cart_item_name);
-        img_cart_count = itemView.findViewById(R.id.cart_image);
+        cartImage = itemView.findViewById(R.id.cart_image);
+        itemPrice = itemView.findViewById(R.id.item_price);
+        totalOfAllItems = itemView.findViewById(R.id.total_of_all_items);
+        totalOfOneItem = itemView.findViewById(R.id.total_of_item_price);
+        quantityButton = itemView.findViewById(R.id.quantity_cart_button);
 
         itemView.setOnCreateContextMenuListener(this);
     }
@@ -47,13 +55,12 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Select Action");
-        menu.add(0,0,getAdapterPosition(), Common.DELETE);
+        menu.add(0, 0, getAdapterPosition(), Common.DELETE);
 
     }
 }
 
-public class CartAdapter  extends RecyclerView.Adapter<CartViewHolder>{
-
+public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     private List<Order> listData = new ArrayList<>();
     private Context context;
     private Cart cart;
@@ -62,6 +69,7 @@ public class CartAdapter  extends RecyclerView.Adapter<CartViewHolder>{
     public CartAdapter(List<Order> listData, Context context) {
         this.listData = listData;
         this.context = context;
+
     }
 
     @NonNull
@@ -69,23 +77,61 @@ public class CartAdapter  extends RecyclerView.Adapter<CartViewHolder>{
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.cart_layout,parent,false);
+        View itemView = inflater.inflate(R.layout.cart_layout, parent, false);
         return new CartViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
 
-        Picasso.with(cart.getBaseContext()).load(listData.get(position).getImage())
+        Picasso.with(context).load(listData.get(position).getImage())
                 .resize(70, 70)
                 .centerCrop()
-                .into(holder.img_cart_count);
+                .into(holder.cartImage);
 
-        Locale local = new Locale("ar","rEG"); // غيرها للعربي عشان متنساش
-        NumberFormat fmt  = NumberFormat.getCurrencyInstance(local);
-        float price  = (Float.parseFloat(listData.get(position).getPrice()))*(Integer.parseInt(listData.get(position).getQuantity()));
-        holder.txt_price.setText( fmt.format(price));
+        Locale local = new Locale("ar", "EG");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(local);
+//        float price = (Float.parseFloat(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
+//        holder.txt_price.setText(fmt.format(price));
+
+        holder.itemPrice.setText(listData.get(position).getPrice() + " ج.م ");
         holder.txt_cart_name.setText(listData.get(position).getProductName());
+        holder.quantityButton.setNumber(listData.get(position).getQuantity());
+
+        holder.quantityButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+            @Override
+            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                int foodPrice = 0;
+                int totalPrice;
+
+                Order order = listData.get(position);
+                order.setQuantity(String.valueOf(newValue));
+                new Database(context).updateCart(order);
+
+                //Update total text
+                //Calculate total price
+                List<Order> orders = new Database(context).getCarts();
+
+                for (Order item : orders) {
+                    try {
+
+                        foodPrice += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+
+                    } catch (NumberFormatException e) {
+                    }
+
+                    totalPrice = foodPrice;
+                    Log.e("Cart", String.valueOf(totalPrice));
+
+
+                    int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
+                    holder.totalOfOneItem.setText(price + " ج.م ");
+                }
+            }
+        });
+
+        int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
+        holder.totalOfOneItem.setText(price + " ج.م ");
 
 
     }

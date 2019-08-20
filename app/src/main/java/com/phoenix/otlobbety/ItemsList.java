@@ -1,12 +1,14 @@
 package com.phoenix.otlobbety;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -228,4 +230,25 @@ public class ItemsList extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (new Database(this).getCountCarts() > 0) {
+            android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = LayoutInflater.from(this);
+
+            View view = inflater.inflate(R.layout.dialog_item_list, null);
+            builder.setView(view);
+
+            builder.setPositiveButton("موافق", (dialogInterface, i) -> {
+                new Database(getBaseContext()).cleanCart();
+                finish();
+            });
+
+            builder.setNegativeButton("لا", (dialogInterface, i) -> dialogInterface.dismiss());
+            builder.show();
+
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

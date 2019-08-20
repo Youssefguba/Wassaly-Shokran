@@ -76,7 +76,8 @@ public class FoodDetails extends AppCompatActivity {
                     currentFood.getName(),
                     counterButton.getNumber(),
                     currentFood.getPrice(),
-                    currentFood.getDiscount()
+                    currentFood.getDiscount(),
+                    currentFood.getImage()
             ));
 
             Toast.makeText(FoodDetails.this, "تمت إضافته إلى السلة", Toast.LENGTH_SHORT).show();

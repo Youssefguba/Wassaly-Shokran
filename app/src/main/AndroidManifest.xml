@@ -41,7 +41,12 @@
         </activity>
 
         <activity android:name=".OrderStatus" />
-        <activity android:name=".Cart" />
+        <activity android:name=".Cart">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.phoenix.otlobbety.ItemsList" />
+        </activity>
+
         <activity android:name=".FoodDetails" />
         <activity android:name=".FoodList" />
         <activity android:name=".SignUp" />

@@ -12,12 +12,13 @@ public class Order {
 
     }
 
-    public Order(String productId, String productName, String quantity, String price, String discount) {
+    public Order(String productId, String productName, String quantity, String price, String discount, String image) {
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;
+        this.Image = image;
 
     }
 
