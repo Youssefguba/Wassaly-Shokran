@@ -17,7 +17,6 @@ public class Database extends SQLiteAssetHelper {
 
     public Database(Context context) {
         super(context, DB_NAME, null, DB_VER);
-
     }
 
     public List<Order> getCarts () {
@@ -40,7 +39,7 @@ public class Database extends SQLiteAssetHelper {
                             c.getString(c.getColumnIndex("Quantity")),
                             c.getString(c.getColumnIndex("Price")),
                             c.getString(c.getColumnIndex("Discount"))
-                    ));
+                            ));
 
             }while (c.moveToNext());
         }
@@ -60,7 +59,6 @@ public class Database extends SQLiteAssetHelper {
     }
 
     public void cleanCart() {
-
         SQLiteDatabase db = getReadableDatabase();
         String query = String.format("DELETE FROM OrderDetail");
         db.execSQL(query);
@@ -69,17 +67,16 @@ public class Database extends SQLiteAssetHelper {
     public int getCountCarts() {
         int count = 0;
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-//        String query = String.format("SELECT COUNT(*) FROM OrderDetails WHERE UserPhone='%s'");
+        String query = String.format("SELECT COUNT(*) FROM OrderDetail");
 
-//        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
 
-//        if (cursor.moveToFirst()) {
-//
-//            do {
-//                count = cursor.getInt(0);
-//            } while (cursor.moveToNext());
-//
-//        }
+            do {
+                count = cursor.getInt(0);
+            } while (cursor.moveToNext());
+
+        }
 
         return count;
     }

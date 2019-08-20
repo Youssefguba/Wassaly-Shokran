@@ -78,7 +78,6 @@ public class ItemsList extends AppCompatActivity {
         }
 
         expandableListView = findViewById(R.id.exp_list);
-
         SetStandardGroups();
         expandableAdapter = new ExpandableAdapter(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(expandableAdapter);
@@ -94,7 +93,7 @@ public class ItemsList extends AppCompatActivity {
         textCartItemCount = actionView.findViewById(R.id.cart_badge);
         setupBadge();
 
-//      actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
+        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
 
         return true;
     }
@@ -105,7 +104,6 @@ public class ItemsList extends AppCompatActivity {
                 if (textCartItemCount.getVisibility() != View.GONE) {
                     textCartItemCount.setVisibility(View.GONE);
                 }
-
             } else {
                 textCartItemCount.setText(String.valueOf(new Database(this).getCountCarts()));
                 if (textCartItemCount.getVisibility() != View.VISIBLE) {
@@ -113,6 +111,25 @@ public class ItemsList extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cart: {
+                Intent cartIntent = new Intent(this, Cart.class);
+                startActivity(cartIntent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupBadge();
+
     }
 
     private void SetStandardGroups() {

@@ -1,7 +1,6 @@
 package com.phoenix.otlobbety;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,17 +63,12 @@ public class FoodDetails extends AppCompatActivity {
         foodimage = findViewById(R.id.img_food);
         cooCollapsingToolbarLayout = findViewById(R.id.collapsing);
 
-
-        counterButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-            @Override
-            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                newValueOfCounter = newValue;
-                total = (Integer.parseInt(currentFood.getPrice()) * newValueOfCounter);
-                String s = String.valueOf(total);
-                foodprice.setText(s);
-            }
+        counterButton.setOnValueChangeListener((view, oldValue, newValue) -> {
+            newValueOfCounter = newValue;
+            total = (Integer.parseInt(currentFood.getPrice()) * newValueOfCounter);
+            String s = String.valueOf(total);
+            foodprice.setText(s);
         });
-
 
         submitOrder.setOnClickListener(v -> {
             new Database(getBaseContext()).addToCart(new Order(
@@ -94,7 +88,6 @@ public class FoodDetails extends AppCompatActivity {
         if (getIntent() != null)
             foodId = getIntent().getStringExtra("childItemID");
         if (!foodId.isEmpty()) {
-
             if (Common.isConnectedToInternet(getBaseContext()))
                 getDetailsOfFood();
             else {
@@ -143,19 +136,9 @@ public class FoodDetails extends AppCompatActivity {
 
             builder.setView(view);
 
-            builder.setPositiveButton("موافق", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            });
+            builder.setPositiveButton("موافق", (dialogInterface, i) -> finish());
+            builder.setNegativeButton("لا", (dialogInterface, i) -> dialogInterface.dismiss());
 
-            builder.setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
             builder.show();
 
         } else {

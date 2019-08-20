@@ -6,6 +6,7 @@ public class Order {
     public String quantity;
     public String price;
     public String discount;
+    private String Image;
 
     public Order() {
 
@@ -17,6 +18,15 @@ public class Order {
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;
+
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 
     public String getProductId() {
