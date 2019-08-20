@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.ornach.nobobutton.NoboButton;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
 import com.phoenix.otlobbety.Model.DataMessage;
@@ -35,35 +36,33 @@ import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.ViewHolder.CartAdapter;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import info.hoang8f.widget.FButton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class Cart extends AppCompatActivity {
+    private static final String TAG = "Cart";
+    public static TextView totalOfAllItems;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseDatabase database;
     DatabaseReference requests;
 
-    TextView noThingtext;
-    //    TextView txtTotalPrice;
-    FButton btnPlace;
+    NoboButton btnPlace;
 
-    List<Order> cart = new ArrayList<>();
+    List<Order> cartList = new ArrayList<>();
     CartAdapter adapter;
 
     APIService mApiService;
 
     ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,12 +91,11 @@ public class Cart extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        noThingtext = findViewById(R.id.Nothingtext);
-//        txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btnPlaceOrder);
+        totalOfAllItems = findViewById(R.id.total_of_all_items);
 
         btnPlace.setOnClickListener(v -> {
-            if (cart.size() > 0) {
+            if (cartList.size() > 0) {
                 showAlertDialog();
             } else {
                 Toast.makeText(Cart.this, "سلة المشتريات فارغة!", Toast.LENGTH_SHORT).show();
@@ -105,7 +103,6 @@ public class Cart extends AppCompatActivity {
         });
 
         loadListFood();
-
     }
 
     private void showAlertDialog() {
@@ -138,7 +135,6 @@ public class Cart extends AppCompatActivity {
                 //Submit to Firebase
                 //We will using System.CurrentMill to key
 
-//
 //                String order_number = String.valueOf(System.currentTimeMillis());
 //                requests.child(order_number)
 //                        .setValue(request);
@@ -218,28 +214,30 @@ public class Cart extends AppCompatActivity {
     }
 
     private void loadListFood() {
-        cart = new Database(this).getCarts();
-        adapter = new CartAdapter(cart, this);
-        adapter.notifyDataSetChanged();
+        cartList = new Database(this).getCarts();
+        adapter = new CartAdapter(cartList, this);
         recyclerView.setAdapter(adapter);
 
+
         //Calculate total price
-        float total = 0;
-        int shippingPrice = 12;
-        for (Order order : cart)
-            total += (Float.parseFloat(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
+        int totalPrice;
+        int foodPrice = 0;
 
-        Locale local = new Locale("ar", "EG");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(local);
+        for (Order item : cartList) {
+            try {
+                foodPrice += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
 
-//        txtTotalPrice.setVisibility(View.GONE);
-//        noThingtext.setVisibility(View.GONE);
-//        if (cart.size() > 0) {
-//            txtTotalPrice.setVisibility(View.VISIBLE);
-//            noThingtext.setVisibility(View.VISIBLE);
-//        }
-//        txtTotalPrice.setText(fmt.format(total + shippingPrice));
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "There is an Error ");
+            }
 
+            totalPrice = foodPrice;
+            totalOfAllItems.setText(totalPrice + " ج.م ");
+            Log.e(TAG, String.valueOf(totalPrice));
+
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -250,9 +248,9 @@ public class Cart extends AppCompatActivity {
     }
 
     private void deleteCart(int position) {
-        cart.remove(position);
+        cartList.remove(position);
         new Database(this).cleanCart();
-        for (Order item : cart)
+        for (Order item : cartList)
             new Database(this).addToCart(item);
         loadListFood();
     }

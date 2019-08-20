@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:state_collapsed="true"
-    app:state_collapsible="true">
-
-    <objectAnimator
-        android:duration="1"
-        android:propertyName="elevation"
-        android:valueTo="0"
-        android:valueType="floatType" />
-</objectAnimator>
-
-
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <objectAnimator
+            android:duration="1"
+            android:propertyName="elevation"
+            android:valueTo="8dp"
+            android:valueType="floatType" />
+    </item>
+</selector>

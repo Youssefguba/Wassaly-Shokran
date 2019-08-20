@@ -21,10 +21,8 @@ import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
@@ -49,14 +47,12 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Select Action");
         menu.add(0, 0, getAdapterPosition(), Common.DELETE);
-
     }
 }
 
@@ -66,9 +62,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     private Cart cart;
 
 
-    public CartAdapter(List<Order> listData, Context context) {
+    public CartAdapter(List<Order> listData, Cart cart) {
         this.listData = listData;
-        this.context = context;
+        this.cart = cart;
 
     }
 
@@ -76,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(cart);
         View itemView = inflater.inflate(R.layout.cart_layout, parent, false);
         return new CartViewHolder(itemView);
     }
@@ -84,15 +80,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
 
-        Picasso.with(context).load(listData.get(position).getImage())
+        Picasso.with(cart).load(listData.get(position).getImage())
                 .resize(70, 70)
                 .centerCrop()
                 .into(holder.cartImage);
-
-        Locale local = new Locale("ar", "EG");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(local);
-//        float price = (Float.parseFloat(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
-//        holder.txt_price.setText(fmt.format(price));
 
         holder.itemPrice.setText(listData.get(position).getPrice() + " ج.م ");
         holder.txt_cart_name.setText(listData.get(position).getProductName());
@@ -106,34 +97,31 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
                 Order order = listData.get(position);
                 order.setQuantity(String.valueOf(newValue));
-                new Database(context).updateCart(order);
+                new Database(cart).updateCart(order);
 
                 //Update total text
                 //Calculate total price
-                List<Order> orders = new Database(context).getCarts();
-
+                List<Order> orders = new Database(cart).getCarts();
                 for (Order item : orders) {
                     try {
-
                         foodPrice += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
-
                     } catch (NumberFormatException e) {
+                        e.printStackTrace();
                     }
 
                     totalPrice = foodPrice;
                     Log.e("Cart", String.valueOf(totalPrice));
 
-
                     int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
                     holder.totalOfOneItem.setText(price + " ج.م ");
+                    Cart.totalOfAllItems.setText(totalPrice + " ج.م ");
+
                 }
             }
         });
 
         int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
         holder.totalOfOneItem.setText(price + " ج.م ");
-
-
     }
 
     @Override

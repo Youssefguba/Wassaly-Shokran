@@ -2,22 +2,27 @@ package com.phoenix.otlobbety;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -60,6 +65,7 @@ public class ItemsList extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(Common.nameOfSubCategory);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTheme);
 
         // show The Image in a ImageView
         new DownloadImageTask(findViewById(R.id.restaurant_img))
@@ -249,6 +255,23 @@ public class ItemsList extends AppCompatActivity {
 
         } else {
             super.onBackPressed();
+        }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void overrideFonts(final Context context, final View v) {
+        try {
+            if (v instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) v;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    overrideFonts(context, child);
+                }
+            } else if (v instanceof TextView) {
+                ((TextView) v).setTypeface(Typeface.createFromAsset(context.getAssets(), "stcregular.ttf"));
+            }
+        } catch (Exception e) {
         }
     }
 }

@@ -7,13 +7,12 @@
     android:layoutDirection="rtl"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".SubCategory"
+    android:background="#EEEEEE"
     tools:showIn="@layout/activity_cart">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listCart"
@@ -21,16 +20,16 @@
             android:layout_height="513dp"
             android:background="@color/fbutton_color_transparent"
             android:scrollbars="vertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             tools:showIn="@layout/activity_cart" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="125dp"
+            android:layout_height="120dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            app:cardBackgroundColor="@color/common_google_signin_btn_text_light">
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -51,25 +50,30 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="سعر التوصيل "
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/Nothingtextshipping"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" ج.م "
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:text="سعر التوصيل : "
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/ShippingPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="12.00"
-                            android:textColor="@color/white"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/Nothingtextshipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" ج.م "
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"
+
                             android:textSize="20sp" />
+
+
 
                     </LinearLayout>
 
@@ -82,39 +86,38 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="الإجمالي :  "
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
 
-                        <TextView
-                            android:id="@+id/Nothingtext"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" ج.م"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/total_of_all_items"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
                     </LinearLayout>
 
 
                 </LinearLayout>
 
-                <info.hoang8f.widget.FButton
+                <com.ornach.nobobutton.NoboButton
                     android:id="@+id/btnPlaceOrder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="Place Order" />
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginBottom="8dp"
+                    app:nb_backgroundColor="@color/colorPrimaryDark"
+                    app:nb_focusColor="@color/white"
+                    app:nb_text="حجز الطلب "
+                    app:nb_textColor="@color/white" />
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
