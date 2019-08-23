@@ -4,24 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEEEEE"
     android:layoutDirection="rtl"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".SubCategory"
-    android:background="#EEEEEE"
     tools:showIn="@layout/activity_cart">
 
     <RelativeLayout
+        android:id="@+id/original_cart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listCart"
             android:layout_width="match_parent"
             android:layout_height="513dp"
-            android:background="@color/fbutton_color_transparent"
-            android:scrollbars="vertical"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
+            android:background="@color/fbutton_color_transparent"
+            android:scrollbars="vertical"
             tools:showIn="@layout/activity_cart" />
 
         <androidx.cardview.widget.CardView
@@ -69,12 +71,8 @@
                             android:layout_height="wrap_content"
                             android:text=" ج.م "
                             android:textColor="@android:color/black"
-                            android:textStyle="bold"
-
-                            android:textSize="20sp" />
-
-
-
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -89,7 +87,6 @@
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
 
-
                         <TextView
                             android:id="@+id/total_of_all_items"
                             android:layout_width="wrap_content"
@@ -99,8 +96,6 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
-
                 </LinearLayout>
 
                 <com.ornach.nobobutton.NoboButton
@@ -113,11 +108,14 @@
                     android:layout_marginBottom="8dp"
                     app:nb_backgroundColor="@color/colorPrimaryDark"
                     app:nb_focusColor="@color/white"
+                    app:nb_radius="5dp"
                     app:nb_text="حجز الطلب "
-                    app:nb_textColor="@color/white" />
+                    app:nb_textColor="@color/white"
+                    app:nb_textSize="15sp" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

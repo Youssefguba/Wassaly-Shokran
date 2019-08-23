@@ -85,6 +85,7 @@ public class ItemsList extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+
         expandableListView = findViewById(R.id.exp_list);
         SetStandardGroups();
         expandableAdapter = new ExpandableAdapter(this, listDataHeader, listDataChild);
@@ -94,13 +95,13 @@ public class ItemsList extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.item_list, menu);
         MenuItem menuItem = menu.findItem(R.id.action_cart);
         actionView = MenuItemCompat.getActionView(menuItem);
         textCartItemCount = actionView.findViewById(R.id.cart_badge);
-        setupBadge();
 
+        setupBadge();
         actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
 
         return true;
@@ -137,7 +138,6 @@ public class ItemsList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setupBadge();
-
     }
 
     private void SetStandardGroups() {

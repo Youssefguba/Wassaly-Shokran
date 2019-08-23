@@ -155,7 +155,7 @@ public class SubCategory extends AppCompatActivity {
             @NonNull
             @Override
             public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_of_subcategory, parent, false);
                 return new MenuViewHolder(view);
             }
 
@@ -168,6 +168,7 @@ public class SubCategory extends AppCompatActivity {
 
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
+
                     Intent itemListAct = new Intent(SubCategory.this, ItemsList.class);
                     itemListAct.putExtra("SubCategoryId", adapter.getRef(position).getKey());
 

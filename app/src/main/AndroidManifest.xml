@@ -18,15 +18,22 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
 
-        <activity android:name=".ItemsList">
+        <activity android:name=".ConfirmOrderRequest">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.phoenix.otlobbety.Cart" />
+        </activity>
+        <activity
+            android:name=".ItemsList"
+            android:launchMode="standard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.phoenix.otlobbety.Home" />
         </activity>
 
-
         <activity
             android:name=".SubCategory"
+            android:launchMode="standard"
             android:label="القائمة">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,6 +43,7 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,22 +63,19 @@
 
         <activity
             android:name=".Home"
-            android:launchMode="singleTop"
+            android:launchMode="standard"
             android:theme="@style/AppTheme" />
-
 
         <service android:name=".Service.MyFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".Service.MyFirebaseMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

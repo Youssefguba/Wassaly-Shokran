@@ -4,10 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.Model.Request;
 import com.phoenix.otlobbety.Model.User;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.Remote.RetrofitClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Common {
 
@@ -60,6 +64,9 @@ public class Common {
     public static final String PWD_KEY = "Password";
 
     public static String PHONE_TEXT = "userPhone";
+
+    public static final String TOTAL_PRICE = "Total Price";
+    public static List<Order> listOfCart = new ArrayList<>();
 
 
 }

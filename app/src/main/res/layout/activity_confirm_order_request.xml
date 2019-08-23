@@ -1,0 +1,194 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    tools:context=".ConfirmOrderRequest">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="right"
+            android:background="?attr/colorPrimaryDark"
+            android:layoutDirection="rtl"
+            android:textAlignment="gravity"
+            android:theme="@style/ToolbarTheme"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_confirm_order_request">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/stcregular"
+                    android:text=" أكمل البيانات"
+                    android:textColor="@android:color/black"
+                    android:textSize="24dp" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/name_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="الإسم"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_errorColor="#2561A5"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/area_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="المنطقة"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/address_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="العنوان"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/street_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="الشارع"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/building_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="رقم المبنى"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/floor_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="رقم الطابق"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/apartment_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="رقم الشقة"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/additional_info_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="معلومات اضافية حول العنوان"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_errorColor="@color/colorPrimary"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/phone_number_of_customer"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="رقم الهاتف"
+                    android:inputType="phone"
+                    app:met_baseColor="@color/colorPrimaryDark"
+                    app:met_errorColor="@color/colorPrimary"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/colorPrimaryDark"
+                    app:met_textColor="@android:color/black"
+                    app:met_textColorHint="#8A8A8A" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="10dp">
+
+                    <com.ornach.nobobutton.NoboButton
+                        android:id="@+id/confirm_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        app:nb_backgroundColor="@color/colorPrimaryDark"
+                        app:nb_focusColor="@color/white"
+                        app:nb_radius="5dp"
+                        app:nb_text="تأكيد الطلب"
+                        app:nb_textColor="@color/white"
+                        app:nb_textSize="18dp" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -65,11 +65,7 @@ public class SignIn extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (Common.isConnectedToInternet(getBaseContext())) {
-
-
                     //Save user & password
                     if (ckbRemember.isChecked())
                     {
@@ -82,7 +78,6 @@ public class SignIn extends AppCompatActivity {
                     final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
                     mDialog.setMessage("Please Wait...");
                     mDialog.show();
-
 
                     table_user.addValueEventListener(new ValueEventListener() {
                         @Override

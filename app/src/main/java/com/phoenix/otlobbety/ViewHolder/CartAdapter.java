@@ -1,22 +1,17 @@
 package com.phoenix.otlobbety.ViewHolder;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.phoenix.otlobbety.Cart;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
-import com.phoenix.otlobbety.Interface.ItemClickListener;
 import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.R;
 import com.squareup.picasso.Picasso;
@@ -24,43 +19,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
-
-    public TextView txt_cart_name, itemPrice, totalOfAllItems, totalOfOneItem;
-    public ImageView cartImage;
-    ElegantNumberButton quantityButton;
-
-    private ItemClickListener itemClickListener;
-
-
-    public CartViewHolder(@NonNull View itemView) {
-        super(itemView);
-        txt_cart_name = itemView.findViewById(R.id.cart_item_name);
-        cartImage = itemView.findViewById(R.id.cart_image);
-        itemPrice = itemView.findViewById(R.id.item_price);
-        totalOfAllItems = itemView.findViewById(R.id.total_of_all_items);
-        totalOfOneItem = itemView.findViewById(R.id.total_of_item_price);
-        quantityButton = itemView.findViewById(R.id.quantity_cart_button);
-
-        itemView.setOnCreateContextMenuListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Select Action");
-        menu.add(0, 0, getAdapterPosition(), Common.DELETE);
-    }
-}
+import io.paperdb.Paper;
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     private List<Order> listData = new ArrayList<>();
-    private Context context;
     private Cart cart;
-
+    MenuItem item;
 
     public CartAdapter(List<Order> listData, Cart cart) {
         this.listData = listData;
@@ -71,7 +35,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(cart);
         View itemView = inflater.inflate(R.layout.cart_layout, parent, false);
         return new CartViewHolder(itemView);
@@ -79,7 +42,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-
         Picasso.with(cart).load(listData.get(position).getImage())
                 .resize(70, 70)
                 .centerCrop()
@@ -88,35 +50,36 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
         holder.itemPrice.setText(listData.get(position).getPrice() + " ج.م ");
         holder.txt_cart_name.setText(listData.get(position).getProductName());
         holder.quantityButton.setNumber(listData.get(position).getQuantity());
+        holder.deleteItemImg.setImageResource(R.drawable.ic_delete_forever_black_24dp);
+        holder.deleteItemImg.setOnClickListener(view -> cart.deleteCart(position));
 
-        holder.quantityButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-            @Override
-            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                int foodPrice = 0;
-                int totalPrice;
+        holder.quantityButton.setOnValueChangeListener((view, oldValue, newValue) -> {
+            int foodPrice = 0;
+            int totalPrice;
 
-                Order order = listData.get(position);
-                order.setQuantity(String.valueOf(newValue));
-                new Database(cart).updateCart(order);
+            Order order = listData.get(position);
+            order.setQuantity(String.valueOf(newValue));
+            new Database(cart).updateCart(order);
 
-                //Update total text
-                //Calculate total price
-                List<Order> orders = new Database(cart).getCarts();
-                for (Order item : orders) {
-                    try {
-                        foodPrice += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-
-                    totalPrice = foodPrice;
-                    Log.e("Cart", String.valueOf(totalPrice));
-
-                    int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
-                    holder.totalOfOneItem.setText(price + " ج.م ");
-                    Cart.totalOfAllItems.setText(totalPrice + " ج.م ");
-
+            //Update total text
+            //Calculate total price
+            List<Order> orders = new Database(cart).getCarts();
+            for (Order item : orders) {
+                try {
+                    foodPrice += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
+
+                totalPrice = foodPrice;
+                Paper.book().write(Common.TOTAL_PRICE, totalPrice);
+                Log.e("Cart", String.valueOf(totalPrice));
+                Log.e("Cart", Paper.book().read(Common.TOTAL_PRICE, totalPrice) + " This is number of Adapter");
+
+                int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
+                holder.totalOfOneItem.setText(price + " ج.م ");
+                Cart.totalOfAllItems.setText(totalPrice + " ج.م ");
+
             }
         });
 
@@ -127,5 +90,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @Override
     public int getItemCount() {
         return listData.size();
+    }
+
+
+    public Order getItem(int position) {
+        return listData.get(position);
+    }
+
+    public void removeItem(int position) {
+        listData.remove(position);
+        notifyItemRemoved(position);
     }
 }

@@ -3,56 +3,116 @@ package com.phoenix.otlobbety.Model;
 import java.util.List;
 
 public class Request {
-    private String phone;
-    private String name;
-    private String address;
-    private String total;
+
+    private String nameOfCustomer;
+    private String areaOfCustomer;
+    private String addressOfCustomer;
+    private String streetOfCustomer;
+    private String buildingOfCustomer;
+    private String floorOfCustomer;
+    private String apartmentOfCustomer;
+    private String additionalInfoAboutCustomer;
+    private String phoneNumberOfCustomer;
+    private int total;
     private String status;
-    private String comment;
     private List<Order> foods; //list of food order
 
     public Request() {
     }
 
-    public Request(String phone, String name, String address, String total, String status, String comment, List<Order> foods) {
-        this.phone = phone;
-        this.name = name;
-        this.address = address;
+    public Request(String nameOfCustomer, String areaOfCustomer, String addressOfCustomer, String streetOfCustomer, String buildingOfCustomer, String floorOfCustomer,
+                   String apartmentOfCustomer, String additionalInfoAboutCustomer, String phoneNumberOfCustomer, int total, String status, List<Order> foods) {
+        this.nameOfCustomer = nameOfCustomer;
+        this.areaOfCustomer = areaOfCustomer;
+        this.addressOfCustomer = addressOfCustomer;
+        this.streetOfCustomer = streetOfCustomer;
+        this.buildingOfCustomer = buildingOfCustomer;
+        this.floorOfCustomer = floorOfCustomer;
+        this.apartmentOfCustomer = apartmentOfCustomer;
+        this.additionalInfoAboutCustomer = additionalInfoAboutCustomer;
+        this.phoneNumberOfCustomer = phoneNumberOfCustomer;
         this.total = total;
         this.status = status;
-        this.comment = comment; //ممكن نخليها تساوي "0"
         this.foods = foods;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getNameOfCustomer() {
+        return nameOfCustomer;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setNameOfCustomer(String nameOfCustomer) {
+        this.nameOfCustomer = nameOfCustomer;
     }
 
-    public String getName() {
-        return name;
+    public String getAreaOfCustomer() {
+        return areaOfCustomer;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAreaOfCustomer(String areaOfCustomer) {
+        this.areaOfCustomer = areaOfCustomer;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressOfCustomer() {
+        return addressOfCustomer;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddressOfCustomer(String addressOfCustomer) {
+        this.addressOfCustomer = addressOfCustomer;
     }
 
-    public String getTotal() {
+    public String getStreetOfCustomer() {
+        return streetOfCustomer;
+    }
+
+    public void setStreetOfCustomer(String streetOfCustomer) {
+        this.streetOfCustomer = streetOfCustomer;
+    }
+
+    public String getBuildingOfCustomer() {
+        return buildingOfCustomer;
+    }
+
+    public void setBuildingOfCustomer(String buildingOfCustomer) {
+        this.buildingOfCustomer = buildingOfCustomer;
+    }
+
+    public String getFloorOfCustomer() {
+        return floorOfCustomer;
+    }
+
+    public void setFloorOfCustomer(String floorOfCustomer) {
+        this.floorOfCustomer = floorOfCustomer;
+    }
+
+    public String getApartmentOfCustomer() {
+        return apartmentOfCustomer;
+    }
+
+    public void setApartmentOfCustomer(String apartmentOfCustomer) {
+        this.apartmentOfCustomer = apartmentOfCustomer;
+    }
+
+    public String getAdditionalInfoAboutCustomer() {
+        return additionalInfoAboutCustomer;
+    }
+
+    public void setAdditionalInfoAboutCustomer(String additionalInfoAboutCustomer) {
+        this.additionalInfoAboutCustomer = additionalInfoAboutCustomer;
+    }
+
+    public String getPhoneNumberOfCustomer() {
+        return phoneNumberOfCustomer;
+    }
+
+    public void setPhoneNumberOfCustomer(String phoneNumberOfCustomer) {
+        this.phoneNumberOfCustomer = phoneNumberOfCustomer;
+    }
+
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(int total) {
         this.total = total;
     }
 
@@ -62,14 +122,6 @@ public class Request {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public List<Order> getFoods() {

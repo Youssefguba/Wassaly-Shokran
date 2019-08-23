@@ -8,6 +8,7 @@
     android:layout_gravity="right"
     android:fitsSystemWindows="true"
     android:layoutDirection="rtl"
+    android:theme="@style/Material.Drawable.NavigationDrawer"
     tools:openDrawer="end">
 
     <include
@@ -27,6 +28,8 @@
         app:itemIconTint="#000"
         app:itemTextAppearance="@style/IsrarsyriaTextViewStyle"
         app:itemTextColor="#000"
-        app:menu="@menu/activity_home_drawer" />
+        app:menu="@menu/activity_home_drawer"
+
+        />
 
 </androidx.drawerlayout.widget.DrawerLayout>

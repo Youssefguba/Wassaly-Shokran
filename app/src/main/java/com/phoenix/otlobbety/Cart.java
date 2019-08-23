@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,12 +37,14 @@ import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.Model.Token;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.ViewHolder.CartAdapter;
+import com.phoenix.otlobbety.ViewHolder.CartViewHolder;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,18 +55,18 @@ public class Cart extends AppCompatActivity {
     public static TextView totalOfAllItems;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-
     FirebaseDatabase database;
     DatabaseReference requests;
-
     NoboButton btnPlace;
-
     List<Order> cartList = new ArrayList<>();
     CartAdapter adapter;
-
     APIService mApiService;
-
+    ImageView deleteItemIcon;
+    View actionView;
     ActionBar actionBar;
+    Menu menu;
+    private MenuItem editCart;
+    private MenuItem cancelCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,8 @@ public class Cart extends AppCompatActivity {
         //Init Service
         mApiService = Common.getFCMService();
 
+        Paper.init(this);
+
         //Firebase
         database = FirebaseDatabase.getInstance();
         requests = database.getReference("Requests");
@@ -91,18 +98,23 @@ public class Cart extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+
         btnPlace = findViewById(R.id.btnPlaceOrder);
         totalOfAllItems = findViewById(R.id.total_of_all_items);
+        deleteItemIcon = findViewById(R.id.delete_item_cart);
 
         btnPlace.setOnClickListener(v -> {
-            if (cartList.size() > 0) {
-                showAlertDialog();
+            if (Common.listOfCart.size() > 0) {
+                Intent orderIntent = new Intent(Cart.this, ConfirmOrderRequest.class);
+                startActivity(orderIntent);
+
             } else {
                 Toast.makeText(Cart.this, "سلة المشتريات فارغة!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        loadListFood();
+        loadListFoodOfCart();
     }
 
     private void showAlertDialog() {
@@ -122,7 +134,7 @@ public class Cart extends AppCompatActivity {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Create new Request
+//                Create new Request
 //                Request request = new Request(
 //                        Common.currentUser.getPhone(),
 //                        Common.currentUser.getName(),
@@ -132,9 +144,9 @@ public class Cart extends AppCompatActivity {
 //                        edtComment.getText().toString(),
 //                        cart
 //                );
-                //Submit to Firebase
-                //We will using System.CurrentMill to key
-
+//                Submit to Firebase
+//                We will using System.CurrentMill to key
+//
 //                String order_number = String.valueOf(System.currentTimeMillis());
 //                requests.child(order_number)
 //                        .setValue(request);
@@ -213,17 +225,16 @@ public class Cart extends AppCompatActivity {
         });
     }
 
-    private void loadListFood() {
-        cartList = new Database(this).getCarts();
-        adapter = new CartAdapter(cartList, this);
+    public void loadListFoodOfCart() {
+        Common.listOfCart = new Database(this).getCarts();
+        adapter = new CartAdapter(Common.listOfCart, this);
         recyclerView.setAdapter(adapter);
-
 
         //Calculate total price
         int totalPrice;
         int foodPrice = 0;
 
-        for (Order item : cartList) {
+        for (Order item : Common.listOfCart) {
             try {
                 foodPrice += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
 
@@ -233,26 +244,58 @@ public class Cart extends AppCompatActivity {
 
             totalPrice = foodPrice;
             totalOfAllItems.setText(totalPrice + " ج.م ");
+            Paper.book().write(Common.TOTAL_PRICE, totalPrice);
             Log.e(TAG, String.valueOf(totalPrice));
+            Log.e("Total Price", Paper.book().read(Common.TOTAL_PRICE) + "this is total price");
 
         }
 
         adapter.notifyDataSetChanged();
     }
 
+
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if (item.getTitle().equals(Common.DELETE))
-            deleteCart(item.getOrder());
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        try {
+            switch (item.getItemId()) {
+                case R.id.edit_cart: {
+                    editCart.setVisible(false);
+                    cancelCart.setVisible(true);
+                    CartViewHolder.deleteItemIcon.setVisibility(View.VISIBLE);
+                    return true;
+
+                }
+                case R.id.cancel_cart: {
+                    editCart.setVisible(true);
+                    cancelCart.setVisible(false);
+                    CartViewHolder.deleteItemIcon.setVisibility(View.GONE);
+                    return false;
+                }
+            }
+        } catch (NullPointerException ignored) {
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.cart_edit, menu);
+
+        editCart = menu.findItem(R.id.edit_cart);
+        cancelCart = menu.findItem(R.id.cancel_cart);
+        actionView = MenuItemCompat.getActionView(editCart);
+
         return true;
     }
 
-    private void deleteCart(int position) {
-        cartList.remove(position);
+    public void deleteCart(int position) {
+        Common.listOfCart.remove(position);
         new Database(this).cleanCart();
-        for (Order item : cartList)
+        for (Order item : Common.listOfCart)
             new Database(this).addToCart(item);
-        loadListFood();
+        loadListFoodOfCart();
     }
 
     @Override
