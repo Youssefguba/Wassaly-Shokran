@@ -97,7 +97,7 @@ public class Home extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         overrideFonts(getBaseContext(), navigationView);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_black_24dp);//your icon here
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_vector);//your icon here
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myApi = retrofit.create(IMyApi.class);
