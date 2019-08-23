@@ -7,6 +7,7 @@
     android:layoutDirection="rtl"
     tools:context=".ItemsList">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -24,6 +25,7 @@
             app:contentScrim="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+
             <ImageView
                 android:id="@+id/restaurant_img"
                 android:layout_width="match_parent"
@@ -37,6 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layoutDirection="rtl"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:titleTextAppearance="@style/ToolbarTheme"
                 android:title="Food Name"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/Theme.AppCompat.Light" />

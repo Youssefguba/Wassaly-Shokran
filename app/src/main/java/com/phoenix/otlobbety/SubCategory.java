@@ -57,7 +57,6 @@ public class SubCategory extends AppCompatActivity {
     ActionBar actionBar;
     IMyApi myApi;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,6 +165,7 @@ public class SubCategory extends AppCompatActivity {
                     overrideFonts(getBaseContext(), menuViewHolder.txtMenuName);
                 }
 
+                menuViewHolder.deliveryTime.setText(category.getDeliveryTime() + " دقيقة ");
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
 

@@ -67,6 +67,8 @@ public class ItemsList extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTheme);
 
+        getSupportActionBar().setElevation(R.drawable.toolbar_shadow);
+
         // show The Image in a ImageView
         new DownloadImageTask(findViewById(R.id.restaurant_img))
                 .execute(Common.imgOfSubCategory);

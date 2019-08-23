@@ -4,6 +4,7 @@ public class Category {
     private String CategoryName;
     private String Name;
     private String Image;
+    private String DeliveryTime;
 
     public Category() {
     }
@@ -11,6 +12,13 @@ public class Category {
     public Category(String name, String image) {
         Name = name;
         Image = image;
+    }
+
+    public Category(String categoryName, String name, String image, String deliveryTime) {
+        CategoryName = categoryName;
+        Name = name;
+        Image = image;
+        DeliveryTime = deliveryTime;
     }
 
     public Category(String categoryName, String name, String image) {
@@ -41,5 +49,13 @@ public class Category {
 
     public void setCategoryName(String categoryName) {
         CategoryName = categoryName;
+    }
+
+    public String getDeliveryTime() {
+        return DeliveryTime;
+    }
+
+    public void setDeliveryTime(String deliveryTime) {
+        DeliveryTime = deliveryTime;
     }
 }
