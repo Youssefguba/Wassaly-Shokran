@@ -19,8 +19,7 @@
             android:layoutDirection="rtl"
             android:textAlignment="gravity"
             android:theme="@style/ToolbarTheme"
-            app:popupTheme="@style/Theme.AppCompat.Light"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="#fff" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

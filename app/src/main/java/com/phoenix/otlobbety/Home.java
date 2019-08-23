@@ -81,6 +81,7 @@ public class Home extends AppCompatActivity
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         setSupportActionBar(toolbar);
 
+
         //Init Firebase
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
@@ -95,6 +96,8 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         overrideFonts(getBaseContext(), navigationView);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_black_24dp);//your icon here
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myApi = retrofit.create(IMyApi.class);
