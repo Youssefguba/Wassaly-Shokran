@@ -256,7 +256,10 @@ public class ItemsList extends AppCompatActivity {
             builder.show();
 
         } else {
-            super.onBackPressed();
+            finish();
+            Intent intent = new Intent(ItemsList.this, Home.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 

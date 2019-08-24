@@ -16,12 +16,13 @@ public class Request {
     private int total;
     private String status;
     private List<Order> foods; //list of food order
+    private int deliveryCost;
 
     public Request() {
     }
 
     public Request(String nameOfCustomer, String areaOfCustomer, String addressOfCustomer, String streetOfCustomer, String buildingOfCustomer, String floorOfCustomer,
-                   String apartmentOfCustomer, String additionalInfoAboutCustomer, String phoneNumberOfCustomer, int total, String status, List<Order> foods) {
+                   String apartmentOfCustomer, String additionalInfoAboutCustomer, String phoneNumberOfCustomer, int total, String status, List<Order> foods, int deliveryCost) {
         this.nameOfCustomer = nameOfCustomer;
         this.areaOfCustomer = areaOfCustomer;
         this.addressOfCustomer = addressOfCustomer;
@@ -34,6 +35,7 @@ public class Request {
         this.total = total;
         this.status = status;
         this.foods = foods;
+        this.deliveryCost = deliveryCost;
     }
 
     public String getNameOfCustomer() {
@@ -130,5 +132,13 @@ public class Request {
 
     public void setFoods(List<Order> foods) {
         this.foods = foods;
+    }
+
+    public int getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(int deliveryCost) {
+        this.deliveryCost = deliveryCost;
     }
 }

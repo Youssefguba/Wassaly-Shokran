@@ -54,13 +54,10 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "HOME";
-
-
     FirebaseDatabase database;
     DatabaseReference category;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
-    TextView txtFullName;
     RecyclerView recyclermenu;
     RecyclerView.LayoutManager layoutManager;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -73,13 +70,14 @@ public class Home extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbarOfHome);
         toolbar.setTitle("منطقة الشيخ زايد");
-        toolbar.setNavigationIcon(R.drawable.ic_menu_vector);
+        setSupportActionBar(toolbar);
 
         //To change the direction of activity - navigation drawer
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        setSupportActionBar(toolbar);
 
 
         //Init Firebase
@@ -97,15 +95,10 @@ public class Home extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         overrideFonts(getBaseContext(), navigationView);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_vector);//your icon here
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myApi = retrofit.create(IMyApi.class);
         shimmerLayout = findViewById(R.id.shimmer_layout);
-
-        //set Name for user
-        View headerView = navigationView.getHeaderView(0);
-//        txtFullName = headerView.findViewById(R.id.txtFullName);
 
         //Load menu
         recyclermenu = findViewById(R.id.menu_recyclerview);
@@ -226,8 +219,8 @@ public class Home extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -248,18 +241,19 @@ public class Home extends AppCompatActivity
             startActivity(orderIntent);
         } else if (id == R.id.nav_discount) {
             showHomeDiscountDialog();
-        } else if (id == R.id.nav_log_out) {
-            //Delete Remember user & password
-            Paper.book().destroy();
-            //Logout
-            Intent signIn = new Intent(Home.this, SignIn.class);
-            signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(signIn);
         }
+//        else if (id == R.id.nav_log_out) {
+//            //Delete Remember user & password
+//            Paper.book().destroy();
+//            //Logout
+//            Intent signIn = new Intent(Home.this, SignIn.class);
+//            signIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(signIn);
+//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         overrideFonts(getBaseContext(), drawer);
-        drawer.closeDrawer(GravityCompat.END);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

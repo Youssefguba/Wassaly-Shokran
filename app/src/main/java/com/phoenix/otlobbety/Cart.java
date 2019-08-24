@@ -40,9 +40,7 @@ import com.phoenix.otlobbety.ViewHolder.CartAdapter;
 import com.phoenix.otlobbety.ViewHolder.CartViewHolder;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import io.paperdb.Paper;
 import retrofit2.Call;
@@ -58,13 +56,13 @@ public class Cart extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference requests;
     NoboButton btnPlace;
-    List<Order> cartList = new ArrayList<>();
     CartAdapter adapter;
     APIService mApiService;
     ImageView deleteItemIcon;
     View actionView;
     ActionBar actionBar;
-    Menu menu;
+
+    TextView deliveryCost;
     private MenuItem editCart;
     private MenuItem cancelCart;
 
@@ -99,7 +97,7 @@ public class Cart extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
+        deliveryCost = findViewById(R.id.ShippingPrice);
         btnPlace = findViewById(R.id.btnPlaceOrder);
         totalOfAllItems = findViewById(R.id.total_of_all_items);
         deleteItemIcon = findViewById(R.id.delete_item_cart);
@@ -242,11 +240,19 @@ public class Cart extends AppCompatActivity {
                 Log.e(TAG, "There is an Error ");
             }
 
+
+            //Delivery Cost
+            int costOfDelivery = Paper.book().read(Common.DELIVERY_COST);
+            deliveryCost.setText(costOfDelivery + " ج.م ");
+
+            //Total Price
             totalPrice = foodPrice;
-            totalOfAllItems.setText(totalPrice + " ج.م ");
+            totalOfAllItems.setText(totalPrice + costOfDelivery + " ج.م ");
             Paper.book().write(Common.TOTAL_PRICE, totalPrice);
-            Log.e(TAG, String.valueOf(totalPrice));
-            Log.e("Total Price", Paper.book().read(Common.TOTAL_PRICE) + "this is total price");
+
+            Log.d(TAG, String.valueOf(totalPrice));
+            Log.d("Total Price", Paper.book().read(Common.TOTAL_PRICE) + "this is total price");
+
 
         }
 

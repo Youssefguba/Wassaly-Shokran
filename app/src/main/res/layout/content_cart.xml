@@ -60,19 +60,10 @@
                             android:id="@+id/ShippingPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="12.00"
                             android:textColor="@android:color/black"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Nothingtextshipping"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" ج.م "
-                            android:textColor="@android:color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout

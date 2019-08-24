@@ -5,6 +5,7 @@ public class Category {
     private String Name;
     private String Image;
     private String DeliveryTime;
+    private int DeliveryCost;
 
     public Category() {
     }
@@ -14,11 +15,12 @@ public class Category {
         Image = image;
     }
 
-    public Category(String categoryName, String name, String image, String deliveryTime) {
+    public Category(String categoryName, String name, String image, String deliveryTime, int deliveryCost) {
         CategoryName = categoryName;
         Name = name;
         Image = image;
         DeliveryTime = deliveryTime;
+        DeliveryCost = deliveryCost;
     }
 
     public Category(String categoryName, String name, String image) {
@@ -53,6 +55,14 @@ public class Category {
 
     public String getDeliveryTime() {
         return DeliveryTime;
+    }
+
+    public int getDeliveryCost() {
+        return DeliveryCost;
+    }
+
+    public void setDeliveryCost(int deliveryCost) {
+        DeliveryCost = deliveryCost;
     }
 
     public void setDeliveryTime(String deliveryTime) {

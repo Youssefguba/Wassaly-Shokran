@@ -25,12 +25,12 @@
             android:title="التواصل معنا"
             />
 
-        <item
-            android:id="@+id/nav_log_out"
-            android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:iconTint="#000"
-            android:title="تسجيل خروج"
-            />
+        <!--        <item-->
+        <!--            android:id="@+id/nav_log_out"-->
+        <!--            android:icon="@drawable/ic_exit_to_app_black_24dp"-->
+        <!--            android:iconTint="#000"-->
+        <!--            android:title="تسجيل خروج"-->
+        <!--            />-->
 
 
     </group>

@@ -149,7 +149,8 @@ public class ConfirmOrderRequest extends AppCompatActivity {
                 phoneNumberOfCustomer.getText().toString(),
                 Paper.book().read(Common.TOTAL_PRICE),
                 "0", //Status
-                Common.listOfCart
+                Common.listOfCart,
+                Paper.book().read(Common.DELIVERY_COST)
         );
 
 //                Submit to Firebase
@@ -163,6 +164,10 @@ public class ConfirmOrderRequest extends AppCompatActivity {
         finish();
         Intent intent = new Intent(ConfirmOrderRequest.this, ItemsList.class);
         startActivity(intent);
+
+        // Save number phone in Paper to show orders according to specific phone number and send
+        // notification to specific user not to all
+        Paper.book().write(Common.PHONE_TEXT, phoneNumberOfCustomer.getText().toString());
 
         // sendNotificationOrder(order_number);
         Toast.makeText(ConfirmOrderRequest.this, "تم إرسال طلب .. وجاري التحضير", Toast.LENGTH_SHORT).show();

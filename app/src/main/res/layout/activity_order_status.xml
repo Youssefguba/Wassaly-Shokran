@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/first"
-    android:layout_gravity="center"
-    tools:context=".OrderStatus">
+    android:background="#EEEEEE"
+    android:layoutDirection="rtl"
+    tools:context=".ConfirmOrderRequest">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="@android:color/black" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_confirm_order_request">
 
-    <TextView
-        android:id="@+id/txtOrderName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Order Status"
-        android:textColor="@color/white"
-        android:textSize="50dp"
-        android:layout_marginLeft="70dp"/>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listOrder"
         android:background="@color/fbutton_color_transparent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/txtOrderName">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-</RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="right"
+            android:background="?attr/colorPrimaryDark"
+            android:layoutDirection="rtl"
+            android:textAlignment="gravity"
+            android:theme="@style/ToolbarTheme"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

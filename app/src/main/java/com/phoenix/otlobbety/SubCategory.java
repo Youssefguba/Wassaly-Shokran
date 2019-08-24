@@ -34,6 +34,7 @@ import com.phoenix.otlobbety.Retrofit.RetrofitClient;
 import com.phoenix.otlobbety.ViewHolder.MenuViewHolder;
 import com.squareup.picasso.Picasso;
 
+import io.paperdb.Paper;
 import io.supercharge.shimmerlayout.ShimmerLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -165,6 +166,7 @@ public class SubCategory extends AppCompatActivity {
                     overrideFonts(getBaseContext(), menuViewHolder.txtMenuName);
                 }
 
+                menuViewHolder.deliveryCost.setText(category.getDeliveryCost() + " ج.م ");
                 menuViewHolder.deliveryTime.setText(category.getDeliveryTime() + " دقيقة ");
                 Picasso.with(getBaseContext()).load(category.getImage()).into(menuViewHolder.imageView);
                 menuViewHolder.setItemClickListener((view, position, isLongClick) -> {
@@ -178,6 +180,8 @@ public class SubCategory extends AppCompatActivity {
                     Common.subCategoryID = adapter.getRef(position).getKey();
                     Log.e(TAG, adapter.getRef(position).getKey());
 
+                    // Save Cost of selected item in Paper to retrieve it in CART Activity ..
+                    Paper.book().write(Common.DELIVERY_COST, category.getDeliveryCost());
                     startActivity(itemListAct);
                 });
             }

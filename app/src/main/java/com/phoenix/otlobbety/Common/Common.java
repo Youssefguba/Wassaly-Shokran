@@ -66,7 +66,8 @@ public class Common {
     public static String PHONE_TEXT = "userPhone";
 
     public static final String TOTAL_PRICE = "Total Price";
-    public static List<Order> listOfCart = new ArrayList<>();
+    public static final String DELIVERY_COST = "Delivery Cost";
 
+    public static List<Order> listOfCart = new ArrayList<>();
 
 }
