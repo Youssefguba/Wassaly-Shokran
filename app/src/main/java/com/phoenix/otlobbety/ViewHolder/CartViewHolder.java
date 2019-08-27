@@ -27,7 +27,6 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         totalOfOneItem = itemView.findViewById(R.id.total_of_item_price);
         quantityButton = itemView.findViewById(R.id.quantity_cart_button);
         deleteItemImg = itemView.findViewById(R.id.delete_item_cart);
-        deleteItemIcon = itemView.findViewById(R.id.delete_item_cart);
 
     }
 

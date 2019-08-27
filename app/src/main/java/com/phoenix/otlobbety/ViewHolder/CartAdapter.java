@@ -71,6 +71,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                     e.printStackTrace();
                 }
 
+                int costOfDelivery = Paper.book().read(Common.DELIVERY_COST);
                 totalPrice = foodPrice;
                 Paper.book().write(Common.TOTAL_PRICE, totalPrice);
                 Log.e("Cart", String.valueOf(totalPrice));
@@ -78,7 +79,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
                 int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
                 holder.totalOfOneItem.setText(price + " ج.م ");
-                Cart.totalOfAllItems.setText(totalPrice + " ج.م ");
+                Cart.totalOfAllItems.setText(totalPrice + costOfDelivery + " ج.م ");
 
             }
         });

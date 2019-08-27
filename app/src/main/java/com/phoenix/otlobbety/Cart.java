@@ -1,11 +1,8 @@
 package com.phoenix.otlobbety;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,10 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,8 +32,6 @@ import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.Model.Token;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.ViewHolder.CartAdapter;
-import com.phoenix.otlobbety.ViewHolder.CartViewHolder;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
 
@@ -113,60 +106,6 @@ public class Cart extends AppCompatActivity {
         });
 
         loadListFoodOfCart();
-    }
-
-    private void showAlertDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
-        alertDialog.setTitle("One more step!");
-        alertDialog.setMessage("Enter your address");
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View order_address_comment = inflater.inflate(R.layout.order_address_comment, null);
-
-        final MaterialEditText edtAddress = order_address_comment.findViewById(R.id.edtAddress);
-        final MaterialEditText edtComment = order_address_comment.findViewById(R.id.edtComment);
-
-        alertDialog.setView(order_address_comment);
-        alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
-
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                Create new Request
-//                Request request = new Request(
-//                        Common.currentUser.getPhone(),
-//                        Common.currentUser.getName(),
-//                        edtAddress.getText().toString(),
-//                        txtTotalPrice.getText().toString(),
-//                        "0", //Status
-//                        edtComment.getText().toString(),
-//                        cart
-//                );
-//                Submit to Firebase
-//                We will using System.CurrentMill to key
-//
-//                String order_number = String.valueOf(System.currentTimeMillis());
-//                requests.child(order_number)
-//                        .setValue(request);
-//
-
-                //Delete Cart
-                new Database(getBaseContext()).cleanCart();
-
-//                sendNotificationOrder(order_number);
-                Toast.makeText(Cart.this, "Thank you , Order Place", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
-
     }
 
     private void sendNotificationOrder(final String order_number) {
@@ -259,42 +198,6 @@ public class Cart extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        try {
-            switch (item.getItemId()) {
-                case R.id.edit_cart: {
-                    editCart.setVisible(false);
-                    cancelCart.setVisible(true);
-                    CartViewHolder.deleteItemIcon.setVisibility(View.VISIBLE);
-                    return true;
-
-                }
-                case R.id.cancel_cart: {
-                    editCart.setVisible(true);
-                    cancelCart.setVisible(false);
-                    CartViewHolder.deleteItemIcon.setVisibility(View.GONE);
-                    return false;
-                }
-            }
-        } catch (NullPointerException ignored) {
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.cart_edit, menu);
-
-        editCart = menu.findItem(R.id.edit_cart);
-        cancelCart = menu.findItem(R.id.cancel_cart);
-        actionView = MenuItemCompat.getActionView(editCart);
-
-        return true;
-    }
 
     public void deleteCart(int position) {
         Common.listOfCart.remove(position);
