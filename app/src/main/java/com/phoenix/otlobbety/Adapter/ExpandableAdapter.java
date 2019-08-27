@@ -95,4 +95,5 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
         return true;
     }
+
 }

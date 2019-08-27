@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,6 +93,11 @@ public class ItemsList extends AppCompatActivity {
         SetStandardGroups();
         expandableAdapter = new ExpandableAdapter(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(expandableAdapter);
+        expandableListView.setOnGroupClickListener((expandableListView, view, groupPosition, childPosition) -> {
+            setListViewHeight(expandableListView, groupPosition);
+            return false;
+        });
+
 
     }
 
@@ -278,5 +284,44 @@ public class ItemsList extends AppCompatActivity {
             }
         } catch (Exception e) {
         }
+    }
+
+    // To make Expandable List Scroll in NestedScrollView
+    private void setListViewHeight(ExpandableListView listView, int group) {
+        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+                //Add Divider Height
+                totalHeight += listView.getDividerHeight() * (listAdapter.getChildrenCount(i) - 1);
+            }
+        }
+        //Add Divider Height
+        totalHeight += listView.getDividerHeight() * (listAdapter.getGroupCount() - 1);
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
