@@ -2,23 +2,40 @@ package com.phoenix.otlobbety;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.ornach.nobobutton.NoboButton;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
+import com.phoenix.otlobbety.Model.DataMessage;
+import com.phoenix.otlobbety.Model.MyResponse;
 import com.phoenix.otlobbety.Model.Request;
+import com.phoenix.otlobbety.Model.Token;
+import com.phoenix.otlobbety.Remote.APIService;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.HashMap;
 
 import es.dmoral.toasty.Toasty;
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmOrderRequest extends AppCompatActivity {
 
@@ -30,6 +47,8 @@ public class ConfirmOrderRequest extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference requestRef;
+
+    APIService mApiService;
 
 
     @Override
@@ -44,6 +63,8 @@ public class ConfirmOrderRequest extends AppCompatActivity {
         //FirebaseInit
         database = FirebaseDatabase.getInstance();
         requestRef = database.getReference("Requests");
+
+        mApiService = Common.getFCMService();
 
 
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -155,9 +176,10 @@ public class ConfirmOrderRequest extends AppCompatActivity {
 
 //                Submit to Firebase
 //                We will using System.CurrentMill to key
-
         String order_number = String.valueOf(System.currentTimeMillis());
         requestRef.child(order_number).setValue(request);
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
 
         //Delete Cart
         new Database(getApplicationContext()).cleanCart();
@@ -169,8 +191,68 @@ public class ConfirmOrderRequest extends AppCompatActivity {
         // notification to specific user not to all
         Paper.book().write(Common.PHONE_TEXT, phoneNumberOfCustomer.getText().toString());
 
-        // sendNotificationOrder(order_number);
-        Toast.makeText(ConfirmOrderRequest.this, "تم إرسال طلب .. وجاري التحضير", Toast.LENGTH_SHORT).show();
+        sendNotificationOrder(order_number);
+        Toasty.success(ConfirmOrderRequest.this, "تم إرسال طلب .. وجاري التحضير", Toast.LENGTH_SHORT).show();
 
     }
+
+    private void updateToken(String token) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference tokens = db.getReference("Token");
+        Token data = new Token(token, false); //false because this token from Client App
+        tokens.child(phoneNumberOfCustomer.getText().toString()).setValue(data);
+    }
+
+    private void sendNotificationOrder(final String order_number) {
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Token");
+        Query data = tokens.orderByChild("serverToken").equalTo(true); //get all node with "isServerToken"
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Token serverToken = postSnapshot.getValue(Token.class);
+//
+//                    Notification notification = new Notification("OtlobBety","You have new Order"+order_number);
+//                    Sender content = new Sender(serverToken.getToken(),notification);
+                    HashMap<String, String> dataSend = new HashMap<>();
+                    dataSend.put("title", "Wasally Shokran");
+                    dataSend.put("message", "You have new Order" + order_number);
+                    DataMessage dataMessage = new DataMessage(serverToken.getToken(), dataSend);
+
+                    String test = new Gson().toJson(dataMessage);
+                    Log.d("Content", test);
+
+
+                    mApiService.sendNotification(dataMessage)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    Toasty.success(ConfirmOrderRequest.this, "تم إرسال طلب .. وجاري التحضير", Toast.LENGTH_SHORT).show();
+                                    new Database(getBaseContext()).cleanCart();
+                                    finish();
+
+                                    if (response.body().success == 1) {
+                                        Toasty.success(ConfirmOrderRequest.this, "تم إرسال طلب .. وجاري التحضير", Toast.LENGTH_SHORT).show();
+                                        new Database(getBaseContext()).cleanCart();
+                                        finish();
+                                    } else {
+                                        Toasty.error(ConfirmOrderRequest.this, "فشل إرسال الطلب .. أعد المحاولة !", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+                                    Log.e("Error", t.getMessage());
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

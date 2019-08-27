@@ -96,16 +96,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    />
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="الإجمالي "
-
-                    />
+                    android:text="الإجمالي " />
 
                 <TextView
                     android:id="@+id/total_of_item_price"
@@ -115,11 +112,11 @@
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
-
             </LinearLayout>
 
 
         </LinearLayout>
+
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"

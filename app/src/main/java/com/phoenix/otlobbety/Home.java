@@ -36,7 +36,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonSyntaxException;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.Category;
-import com.phoenix.otlobbety.Model.Token;
 import com.phoenix.otlobbety.Retrofit.IMyApi;
 import com.phoenix.otlobbety.Retrofit.RetrofitClient;
 import com.phoenix.otlobbety.ViewHolder.MenuViewHolder;
@@ -133,16 +132,8 @@ public class Home extends AppCompatActivity
             return;
         }
 
-//        updateToken(FirebaseInstanceId.getInstance().getToken());
-
     }
 
-    private void updateToken(String token) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference tokens = db.getReference("Token");
-        Token data = new Token(token, false); //false because this token from Client App
-//        tokens.child(Common.currentUser.getPhone()).setValue(data);
-    }
 
     private void fetchData() {
         shimmerLayout.setVisibility(View.VISIBLE);

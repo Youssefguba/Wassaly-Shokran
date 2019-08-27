@@ -2,7 +2,6 @@ package com.phoenix.otlobbety;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,77 +42,68 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        edtPassword = (MaterialEditText)findViewById(R.id.password);
-        edtPhone = (MaterialEditText)findViewById(R.id.phoneNumber);
-        btnSignIn = (FButton)findViewById(R.id.signIn);
-        txtforgetpasword = (TextView)findViewById(R.id.forgot_password);
-        ckbRemember = (CheckBox)findViewById(R.id.ckbRemember);
+        edtPassword = findViewById(R.id.password);
+        edtPhone = findViewById(R.id.phoneNumber);
+        btnSignIn = findViewById(R.id.signIn);
+        txtforgetpasword = findViewById(R.id.forgot_password);
+        ckbRemember = findViewById(R.id.ckbRemember);
         //Init Paper
         Paper.init(this);
 
-        txtforgetpasword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showForgetShow();
-            }
-        });
+        txtforgetpasword.setOnClickListener(v -> showForgetShow());
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
         table_user = database.getReference("User");
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Common.isConnectedToInternet(getBaseContext())) {
-                    //Save user & password
-                    if (ckbRemember.isChecked())
-                    {
-                        Paper.book().write(Common.USER_KEY,edtPhone.getText().toString());
-                        Paper.book().write(Common.PWD_KEY,edtPassword.getText().toString());
-                    }
-                   // if (edtPhone.getText().toString().isEmpty() && edtPassword.getText().toString().isEmpty()) // هنا
-                     //   Toast.makeText(SignIn.this, "Text's is Empty !!!", Toast.LENGTH_SHORT).show();
-
-                    final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
-                    mDialog.setMessage("Please Wait...");
-                    mDialog.show();
-
-                    table_user.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            //Check if User not exist database
-                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                //Get User information
-                                mDialog.dismiss();
-                                User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                                user.setPhone(edtPhone.getText().toString()); //set phone
-                                if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                    Intent homeIntent = new Intent(SignIn.this, Home.class);
-                                    Common.currentUser = user;
-                                    homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(homeIntent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(SignIn.this, "Wrong Password!!", Toast.LENGTH_SHORT).show();
-                                    txtforgetpasword.setVisibility(View.VISIBLE);
-
-                                }
-                            } else {
-                                mDialog.dismiss();
-                                Toast.makeText(SignIn.this, "Wrong Phone Number!!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    }); }
-                else {
-                    Toast.makeText(SignIn.this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
-                    return ;
+        btnSignIn.setOnClickListener(v -> {
+            if (Common.isConnectedToInternet(getBaseContext())) {
+                //Save user & password
+                if (ckbRemember.isChecked()) {
+                    Paper.book().write(Common.USER_KEY, edtPhone.getText().toString());
+                    Paper.book().write(Common.PWD_KEY, edtPassword.getText().toString());
                 }
+                // if (edtPhone.getText().toString().isEmpty() && edtPassword.getText().toString().isEmpty()) // هنا
+                //   Toast.makeText(SignIn.this, "Text's is Empty !!!", Toast.LENGTH_SHORT).show();
+
+                final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
+                mDialog.setMessage("Please Wait...");
+                mDialog.show();
+
+                table_user.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //Check if User not exist database
+                        if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                            //Get User information
+                            mDialog.dismiss();
+                            User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                            user.setPhone(edtPhone.getText().toString()); //set phone
+                            if (user.getPassword().equals(edtPassword.getText().toString())) {
+                                Intent homeIntent = new Intent(SignIn.this, Home.class);
+                                Common.currentUser = user;
+                                homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(homeIntent);
+                                finish();
+                            } else {
+                                Toast.makeText(SignIn.this, "Wrong Password!!", Toast.LENGTH_SHORT).show();
+                                txtforgetpasword.setVisibility(View.VISIBLE);
+
+                            }
+                        } else {
+                            mDialog.dismiss();
+                            Toast.makeText(SignIn.this, "Wrong Phone Number!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            } else {
+                Toast.makeText(SignIn.this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }
@@ -129,35 +119,26 @@ public class SignIn extends AppCompatActivity {
         builder.setView(forgetView);
         builder.setIcon(R.drawable.ic_security_black_24dp);
 
-        final MaterialEditText edtPhone = (MaterialEditText)forgetView.findViewById(R.id.edtPhone);
-        final MaterialEditText edtSecureCide = (MaterialEditText)forgetView.findViewById(R.id.edtSecureCode);
+        final MaterialEditText edtPhone = forgetView.findViewById(R.id.edtPhone);
+        final MaterialEditText edtSecureCide = forgetView.findViewById(R.id.edtSecureCode);
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("YES", (dialog, which) -> table_user.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                table_user.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.child(edtPhone.getText().toString())
-                                .getValue(User.class);
-                        if(user.getSecureCode().equals(edtSecureCide.getText().toString()))
-                            Toast.makeText(SignIn.this, "Your Password : "+user.getPassword(), Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(SignIn.this, "Wrong Secure Code !", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.child(edtPhone.getText().toString())
+                        .getValue(User.class);
+                if (user.getSecureCode().equals(edtSecureCide.getText().toString()))
+                    Toast.makeText(SignIn.this, "Your Password : " + user.getPassword(), Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(SignIn.this, "Wrong Secure Code !", Toast.LENGTH_SHORT).show();
             }
-        });
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+        }));
+        builder.setNegativeButton("NO", (dialog, which) -> {
         });
 
         builder.show();

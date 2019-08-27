@@ -1,14 +1,12 @@
 package com.phoenix.otlobbety;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import info.hoang8f.widget.FButton;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.User;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import info.hoang8f.widget.FButton;
 
 public class SignUp extends AppCompatActivity {
     MaterialEditText edtName,edtPhone,edtPassword,edtSecureCode;
@@ -29,21 +29,19 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        edtPassword = (MaterialEditText)findViewById(R.id.password);
-        edtPhone = (MaterialEditText)findViewById(R.id.phoneNumber);
-        edtName = (MaterialEditText)findViewById(R.id.Name);
-        edtSecureCode = (MaterialEditText)findViewById(R.id.edtSecureCode);
-        btnSignUp = (FButton)findViewById(R.id.signUp);
+        edtPassword = findViewById(R.id.password);
+        edtPhone = findViewById(R.id.phoneNumber);
+        edtName = findViewById(R.id.Name);
+        edtSecureCode = findViewById(R.id.edtSecureCode);
+        btnSignUp = findViewById(R.id.signUp);
 
         //Init Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSignUp.setOnClickListener(v -> {
 
-                if(Common.isConnectedToInternet(getBaseContext())){
+            if (Common.isConnectedToInternet(getBaseContext())) {
 
                 final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
                 mDialog.setMessage("Please Wait...");
@@ -57,7 +55,7 @@ public class SignUp extends AppCompatActivity {
                             //Get User information
                             mDialog.dismiss();
                             Toast.makeText(SignUp.this, "This User is Used !", Toast.LENGTH_SHORT).show();
-                            } else {
+                        } else {
                             mDialog.dismiss();
                             User user = new User(edtName.getText().toString(),
                                     edtPassword.getText().toString(),
@@ -66,25 +64,21 @@ public class SignUp extends AppCompatActivity {
 
                             Toast.makeText(SignUp.this, "SignIn with this new Account ^^", Toast.LENGTH_LONG).show();
 
-                           Intent homeIntentsignup = new Intent(SignUp.this,SignIn.class);
-                           homeIntentsignup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                           startActivity(homeIntentsignup);
+                            Intent homeIntentsignup = new Intent(SignUp.this, SignIn.class);
+                            homeIntentsignup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(homeIntentsignup);
                             finish();
-
                         }
-                        }
-
+                    }
 
                     @Override
-                    public void onCancelled (@NonNull DatabaseError databaseError){
-
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-            }
-                else {
-                    Toast.makeText(SignUp.this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
-                    return ;
-                }
+
+            } else {
+                Toast.makeText(SignUp.this, "Please check your connection !!", Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }

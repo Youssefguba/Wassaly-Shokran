@@ -9,36 +9,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.ornach.nobobutton.NoboButton;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
-import com.phoenix.otlobbety.Model.DataMessage;
-import com.phoenix.otlobbety.Model.MyResponse;
 import com.phoenix.otlobbety.Model.Order;
-import com.phoenix.otlobbety.Model.Token;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.ViewHolder.CartAdapter;
 
-import java.util.HashMap;
-
 import io.paperdb.Paper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class Cart extends AppCompatActivity {
@@ -106,60 +92,6 @@ public class Cart extends AppCompatActivity {
         });
 
         loadListFoodOfCart();
-    }
-
-    private void sendNotificationOrder(final String order_number) {
-        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Token");
-        Query data = tokens.orderByChild("serverToken").equalTo(true); //get all node with "isServerToken"
-        data.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Token serverToken = postSnapshot.getValue(Token.class);
-
-//                    Notification notification = new Notification("OtlobBety","You have new Order"+order_number);
-//                    Sender content = new Sender(serverToken.getToken(),notification);
-                    HashMap<String, String> dataSend = new HashMap<>();
-                    dataSend.put("title", "Wasally Shokran");
-                    dataSend.put("message", "You have new Order" + order_number);
-                    DataMessage dataMessage = new DataMessage(serverToken.getToken(), dataSend);
-
-                    String test = new Gson().toJson(dataMessage);
-                    Log.d("Content", test);
-
-
-                    mApiService.sendNotification(dataMessage)
-                            .enqueue(new Callback<MyResponse>() {
-                                @Override
-                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                    Toast.makeText(Cart.this, "Thank you , Order Place", Toast.LENGTH_SHORT).show();
-                                    new Database(getBaseContext()).cleanCart();
-                                    finish();
-
-                                   /* if (response.body().success == 1)
-                                    {
-                                        Toast.makeText(Cart.this, "Thank you , Order Place", Toast.LENGTH_SHORT).show();
-                                        new Database(getBaseContext()).cleanCart();
-                                        finish();
-                                    }else
-                                    {
-                                        Toast.makeText(Cart.this, "Failed !!!", Toast.LENGTH_SHORT).show();
-                                    }*/
-                                }
-
-                                @Override
-                                public void onFailure(Call<MyResponse> call, Throwable t) {
-                                    Log.e("Error", t.getMessage());
-                                }
-                            });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void loadListFoodOfCart() {
