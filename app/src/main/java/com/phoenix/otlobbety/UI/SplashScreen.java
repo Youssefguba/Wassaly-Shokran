@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
+
+import com.phoenix.otlobbety.R;
 
 public class SplashScreen extends Activity {
     Thread splashTread;

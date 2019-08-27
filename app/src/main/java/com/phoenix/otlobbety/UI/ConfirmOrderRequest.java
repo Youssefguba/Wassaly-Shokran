@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import com.phoenix.otlobbety.Model.DataMessage;
 import com.phoenix.otlobbety.Model.MyResponse;
 import com.phoenix.otlobbety.Model.Request;
 import com.phoenix.otlobbety.Model.Token;
+import com.phoenix.otlobbety.R;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.rengwuxian.materialedittext.MaterialEditText;
 

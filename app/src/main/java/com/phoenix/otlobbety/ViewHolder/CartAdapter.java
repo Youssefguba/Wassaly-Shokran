@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.phoenix.otlobbety.Cart;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
 import com.phoenix.otlobbety.Model.Order;
 import com.phoenix.otlobbety.R;
+import com.phoenix.otlobbety.UI.Cart;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

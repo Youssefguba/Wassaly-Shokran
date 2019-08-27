@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -24,6 +24,7 @@ import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
 import com.phoenix.otlobbety.Model.Food;
 import com.phoenix.otlobbety.Model.Order;
+import com.phoenix.otlobbety.R;
 import com.squareup.picasso.Picasso;
 
 public class FoodDetails extends AppCompatActivity {

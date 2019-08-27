@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.phoenix.otlobbety.Adapter.ExpandableAdapter;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
+import com.phoenix.otlobbety.R;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -264,7 +265,7 @@ public class ItemsList extends AppCompatActivity {
         } else {
             finish();
             Intent intent = new Intent(ItemsList.this, Home.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }

@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import com.ornach.nobobutton.NoboButton;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
 import com.phoenix.otlobbety.Model.Order;
+import com.phoenix.otlobbety.R;
 import com.phoenix.otlobbety.Remote.APIService;
 import com.phoenix.otlobbety.ViewHolder.CartAdapter;
 
@@ -96,7 +97,7 @@ public class Cart extends AppCompatActivity {
 
     public void loadListFoodOfCart() {
         Common.listOfCart = new Database(this).getCarts();
-        adapter = new CartAdapter(Common.listOfCart, this);
+        adapter = new CartAdapter(Common.listOfCart, Cart.this);
         recyclerView.setAdapter(adapter);
 
         //Calculate total price

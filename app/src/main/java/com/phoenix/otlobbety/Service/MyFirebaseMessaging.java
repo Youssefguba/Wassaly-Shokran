@@ -15,9 +15,9 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Helper.NotificationHelper;
-import com.phoenix.otlobbety.LoginPage;
-import com.phoenix.otlobbety.OrderStatus;
 import com.phoenix.otlobbety.R;
+import com.phoenix.otlobbety.UI.Home;
+import com.phoenix.otlobbety.UI.OrderStatus;
 
 import java.util.Map;
 import java.util.Random;
@@ -40,7 +40,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String title = data.get("title");
         String message = data.get("message");
 
-        Intent intent = new Intent(this, LoginPage.class);
+        Intent intent = new Intent(this, Home.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 

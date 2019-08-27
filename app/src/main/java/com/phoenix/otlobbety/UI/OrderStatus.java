@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.Request;
+import com.phoenix.otlobbety.R;
 import com.phoenix.otlobbety.ViewHolder.OrderViewHolder;
 
 import io.paperdb.Paper;

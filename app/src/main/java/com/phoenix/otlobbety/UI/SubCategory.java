@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +29,7 @@ import com.google.firebase.database.Query;
 import com.google.gson.JsonSyntaxException;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Model.Category;
+import com.phoenix.otlobbety.R;
 import com.phoenix.otlobbety.Retrofit.IMyApi;
 import com.phoenix.otlobbety.Retrofit.RetrofitClient;
 import com.phoenix.otlobbety.ViewHolder.MenuViewHolder;

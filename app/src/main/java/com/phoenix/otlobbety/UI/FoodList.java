@@ -1,4 +1,4 @@
-package com.phoenix.otlobbety;
+package com.phoenix.otlobbety.UI;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.phoenix.otlobbety.Model.Food;
+import com.phoenix.otlobbety.R;
 import com.phoenix.otlobbety.ViewHolder.FoodViewHolder;
 
 import java.util.ArrayList;
