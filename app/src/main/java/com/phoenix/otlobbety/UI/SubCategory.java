@@ -71,6 +71,7 @@ public class SubCategory extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarOfSubCategory);
         toolbar.setTitle(Common.nameOfCategory);
         setSupportActionBar(toolbar);
+        Paper.init(this);
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {

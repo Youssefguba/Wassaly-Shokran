@@ -25,7 +25,8 @@
         android:gravity="center"
         android:padding="3dp"
         android:text="0"
+        android:textStyle="bold"
         android:textColor="@android:color/white"
-        android:textSize="10sp" />
+        android:textSize="11sp" />
 
 </FrameLayout>

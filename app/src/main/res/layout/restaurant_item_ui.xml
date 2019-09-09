@@ -48,7 +48,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="35dp"
             android:fontFamily="@font/stcregular"
-            android:text="مدة التوصيل"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -64,7 +63,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/stcregular"
-            android:text="20 دقيقة"
 
             android:textColor="@color/white"
             android:textSize="22sp"

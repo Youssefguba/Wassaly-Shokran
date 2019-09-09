@@ -18,29 +18,29 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
 
-        <activity android:name=".ConfirmOrderRequest">
+        <activity android:name=".UI.ConfirmOrderRequest">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.phoenix.otlobbety.Cart" />
+                android:value="com.phoenix.otlobbety.UI.Cart" />
         </activity>
         <activity
-            android:name=".ItemsList"
+            android:name=".UI.ItemsList"
             android:launchMode="standard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.phoenix.otlobbety.Home" />
+                android:value="com.phoenix.otlobbety.UI.Home" />
         </activity>
 
         <activity
-            android:name=".SubCategory"
+            android:name=".UI.SubCategory"
             android:launchMode="standard"
             android:label="القائمة">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.phoenix.otlobbety.Home" />
+                android:value="com.phoenix.otlobbety.UI.Home" />
         </activity>
 
-        <activity android:name=".SplashScreen">
+        <activity android:name=".UI.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,19 +48,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".OrderStatus" />
-        <activity android:name=".Cart">
+        <activity android:name=".UI.OrderStatus" />
+        <activity android:name=".UI.Cart">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.phoenix.otlobbety.ItemsList" />
+                android:value="com.phoenix.otlobbety.UI.ItemsList" />
         </activity>
 
-        <activity android:name=".FoodDetails" />
-        <activity android:name=".FoodList" />
-        <activity android:name=".LoginPage" />
+        <activity android:name=".UI.FoodDetails" />
+        <activity android:name=".UI.FoodList" />
 
         <activity
-            android:name=".Home"
+            android:name=".UI.Home"
             android:launchMode="standard"
             android:theme="@style/AppTheme" />
 

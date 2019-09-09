@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso;
 
 public class FoodDetails extends AppCompatActivity {
     public static final String TAG = "FoodDetails";
-    TextView foodname, foodprice, fooddescription, fooddiscount;
+    TextView foodname, foodprice, fooddescription;
     ImageView foodimage;
     CollapsingToolbarLayout cooCollapsingToolbarLayout;
     ElegantNumberButton counterButton;
@@ -60,7 +60,6 @@ public class FoodDetails extends AppCompatActivity {
         fooddescription = findViewById(R.id.food_description);
         foodname = findViewById(R.id.food_name);
         foodprice = findViewById(R.id.food_price);
-        fooddiscount = findViewById(R.id.food_discount);
         foodimage = findViewById(R.id.img_food);
         cooCollapsingToolbarLayout = findViewById(R.id.collapsing);
 

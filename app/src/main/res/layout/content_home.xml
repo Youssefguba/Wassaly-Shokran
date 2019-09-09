@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SubCategory"
+    tools:context=".UI.SubCategory"
     android:layoutDirection="rtl"
     tools:showIn="@layout/activity_sub_category">
 

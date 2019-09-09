@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context=".ItemsList">
+    tools:context=".UI.ItemsList">
 
 
     <androidx.core.widget.NestedScrollView

@@ -1,7 +1,7 @@
 package com.phoenix.otlobbety.Model;
 
 public class Food {
-
+    private String uid;
     private String Name ;
     private String Image ;
     private String Description ;
@@ -67,5 +67,13 @@ public class Food {
 
     public void setPrice(String price) {
         Price = price;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

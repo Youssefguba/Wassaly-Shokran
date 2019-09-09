@@ -37,9 +37,9 @@ public class Common {
 
     public static String convertCodeToStatus(String status) {
         if (status.equals("0"))
-            return "Placed";
+            return "تم إرسال الطلب";
         else
-            return "Accepted";
+            return "تم قبول الطلب .. جاري التحضير";
     }
 
     public static boolean isConnectedToInternet(Context context) {

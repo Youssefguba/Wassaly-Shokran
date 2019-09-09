@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:id="@+id/orderlayout"
+    android:layoutDirection="rtl"
     app:cardElevation="4dp">
     <LinearLayout
         android:layout_marginTop="16dp"
@@ -23,9 +24,10 @@
 
             <TextView
                 android:id="@+id/order_id"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:textStyle="bold"
-                android:text="#1111111"
+                android:fontFamily="@font/stcregular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -33,24 +35,36 @@
                 android:id="@+id/order_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Status"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/stcregular"
                 android:textStyle="italic" />
 
+            <TextView
+                android:id="@+id/name_of_order_customer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stcregular"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textStyle="italic" />
             <TextView
                 android:id="@+id/order_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="123456789"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/stcregular"
                 android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/order_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Address" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/stcregular"
+                 />
 
 
         </LinearLayout>

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.phoenix.otlobbety.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,10 +16,10 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> headerItem;
-    private HashMap<String, ArrayList> childItem;
+    private HashMap<String, List> childItem;
 
 
-    public ExpandableAdapter(Context context, List<String> headerItem, HashMap<String, ArrayList> childItem) {
+    public ExpandableAdapter(Context context, List<String> headerItem, HashMap<String, List> childItem) {
         this.context = context;
         this.headerItem = headerItem;
         this.childItem = childItem;
@@ -92,8 +91,10 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-
         return true;
     }
+
+
+
 
 }

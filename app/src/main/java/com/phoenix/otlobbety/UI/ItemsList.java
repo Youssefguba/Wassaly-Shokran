@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.phoenix.otlobbety.Adapter.ExpandableAdapter;
 import com.phoenix.otlobbety.Common.Common;
 import com.phoenix.otlobbety.Database.Database;
+import com.phoenix.otlobbety.Model.Food;
 import com.phoenix.otlobbety.R;
 
 import java.io.InputStream;
@@ -46,15 +47,18 @@ import java.util.List;
 
 public class ItemsList extends AppCompatActivity {
 
-    public static final String TAG = "ItemsList";
+    public static final String TAG = "ItemsListTest";
     View actionView;
     TextView textCartItemCount;
     ImageView subCategoryImage;
     List<String> listDataHeader;
-    HashMap<String, ArrayList> listDataChild;
+    HashMap<String, List> listDataChild;
     FirebaseDatabase database;
     DatabaseReference myRef;
     ActionBar actionBar;
+    String key;
+    String itemId;
+    Food childNames;
 
     ExpandableAdapter expandableAdapter;
     ExpandableListView expandableListView;
@@ -98,7 +102,6 @@ public class ItemsList extends AppCompatActivity {
             setListViewHeight(expandableListView, groupPosition);
             return false;
         });
-
 
     }
 
@@ -155,30 +158,32 @@ public class ItemsList extends AppCompatActivity {
 
         myRef.child(Common.subCategoryID).addChildEventListener(new ChildEventListener() {
             int counter = 0;
-            ArrayList childItem;
+            List<String> childItem;
+
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 listDataHeader.add(dataSnapshot.getKey());
                 childItem = new ArrayList();
-                Log.e(TAG, "Data Header :" + listDataHeader);
                 Log.e(TAG, "Data SnapShot :" + dataSnapshot);
-                Log.e(TAG, "Data Items :" + childItem);
+                Log.e(TAG, "Data Header :" + listDataHeader);
+
                 //This " For each " loop to search for values in node and get the value of key that called " name "
                 // and put it in child of parent.
-
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    HashMap childNames = (HashMap) ds.getValue();
-                    childItem.add(childNames.get("name"));
+                    childNames =  ds.getValue(Food.class);
+                    childItem.add(String.valueOf(childNames.getName()));
                 }
+
                 listDataChild.put(listDataHeader.get(counter), childItem);
                 counter++;
 
                 // Make child item clickable..
                 expandableListView.setOnChildClickListener((expandableListView, view, groupPosition, childPosition, id) -> {
+                    Common.childItemId = listDataHeader.get(groupPosition);
 
-                    //To Intent for Food Details Activity
+                    //To Intent for Food Details Activity when click on Child item ..
                     Intent childIntent = new Intent(ItemsList.this, FoodDetails.class);
-                    String itemId = (String) listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                    itemId = (String) listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
 
                     /*
                      * Store the name of Array List in Common.childItemId to retrieve all of List.
@@ -186,14 +191,12 @@ public class ItemsList extends AppCompatActivity {
                      * data in Food details activity when clicked on child item.
                      *
                      */
-
-                    Common.childItemId = listDataHeader.get(groupPosition);
-                    Common.indexOfItemInArray = String.valueOf(childPosition);
-
+                    Common.indexOfItemInArray = itemId;
                     childIntent.putExtra("childItemID", itemId);
                     startActivity(childIntent);
 
                     return false;
+
                 });
 
                 expandableAdapter.notifyDataSetChanged();
@@ -218,6 +221,7 @@ public class ItemsList extends AppCompatActivity {
             }
         });
     }
+
 
     @SuppressLint("StaticFieldLeak")
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -325,4 +329,6 @@ public class ItemsList extends AppCompatActivity {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+
 }

@@ -6,7 +6,7 @@
     <color name="colorAccent">#5F4743</color>
     <color name="signUp">#BE3D2D</color>
     <color name="signIn">#A9d440</color>
-    <color name="overlayBackground">#222224</color>
+    <color name="overlayBackground">#00222224</color>
     <color name="grey">#fd454545</color>
     <color name="overlayActionbar">#0e0d0e</color>
     <color name="bgRowBackground">#FA315B</color>
