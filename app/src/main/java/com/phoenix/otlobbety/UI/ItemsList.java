@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ItemsList extends AppCompatActivity {
-
     public static final String TAG = "ItemsListTest";
     View actionView;
     TextView textCartItemCount;
@@ -56,7 +55,6 @@ public class ItemsList extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
     ActionBar actionBar;
-    String key;
     String itemId;
     Food childNames;
 
@@ -67,13 +65,10 @@ public class ItemsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_list);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(Common.nameOfSubCategory);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTheme);
-
-        getSupportActionBar().setElevation(R.drawable.toolbar_shadow);
 
         // show The Image in a ImageView
         new DownloadImageTask(findViewById(R.id.restaurant_img))
@@ -82,7 +77,6 @@ public class ItemsList extends AppCompatActivity {
         //Firebase Initialize
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("ExpandableList");
-
         subCategoryImage = findViewById(R.id.restaurant_img);
 
         actionBar = getSupportActionBar();
@@ -93,7 +87,6 @@ public class ItemsList extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-
         expandableListView = findViewById(R.id.exp_list);
         SetStandardGroups();
         expandableAdapter = new ExpandableAdapter(this, listDataHeader, listDataChild);
@@ -102,7 +95,6 @@ public class ItemsList extends AppCompatActivity {
             setListViewHeight(expandableListView, groupPosition);
             return false;
         });
-
     }
 
     @Override
@@ -164,8 +156,6 @@ public class ItemsList extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 listDataHeader.add(dataSnapshot.getKey());
                 childItem = new ArrayList();
-                Log.e(TAG, "Data SnapShot :" + dataSnapshot);
-                Log.e(TAG, "Data Header :" + listDataHeader);
 
                 //This " For each " loop to search for values in node and get the value of key that called " name "
                 // and put it in child of parent.
@@ -184,7 +174,6 @@ public class ItemsList extends AppCompatActivity {
                     //To Intent for Food Details Activity when click on Child item ..
                     Intent childIntent = new Intent(ItemsList.this, FoodDetails.class);
                     itemId = (String) listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-
                     /*
                      * Store the name of Array List in Common.childItemId to retrieve all of List.
                      * Store the index of List in Common.indexOfItemInArray to show the correct ,
@@ -194,14 +183,10 @@ public class ItemsList extends AppCompatActivity {
                     Common.indexOfItemInArray = itemId;
                     childIntent.putExtra("childItemID", itemId);
                     startActivity(childIntent);
-
                     return false;
-
                 });
 
                 expandableAdapter.notifyDataSetChanged();
-
-
             }
 
             @Override
@@ -221,7 +206,6 @@ public class ItemsList extends AppCompatActivity {
             }
         });
     }
-
 
     @SuppressLint("StaticFieldLeak")
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -273,7 +257,6 @@ public class ItemsList extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void overrideFonts(final Context context, final View v) {

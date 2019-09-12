@@ -48,7 +48,6 @@ public class FoodDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_details);
 
-
         //Firebase Initialize
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("ExpandableList");
@@ -98,9 +97,7 @@ public class FoodDetails extends AppCompatActivity {
         }
     }
 
-
     private void getDetailsOfFood() {
-
         myRef.child(Common.subCategoryID).child(Common.childItemId).child(Common.indexOfItemInArray).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -112,7 +109,6 @@ public class FoodDetails extends AppCompatActivity {
                     Log.e("Error", e.getMessage());
                     e.printStackTrace();
                 }
-
                 cooCollapsingToolbarLayout.setTitle(currentFood.getName());
                 foodprice.setText(currentFood.getPrice());
                 foodname.setText(currentFood.getName());

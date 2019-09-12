@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FoodDetails">
+    tools:context=".UI.FoodDetails">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,10 +20,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimaryDark"
             android:stateListAnimator="@animator/appbar_not_elevated"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:collapsedTitleTextAppearance="@color/fbutton_color_transparent"
-
-            >
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
             <ImageView
                 android:id="@+id/img_food"
                 android:layout_width="match_parent"
@@ -42,13 +39,7 @@
                 android:stateListAnimator="@animator/appbar_not_elevated"
                 />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-
-
-
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -91,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
@@ -102,7 +93,7 @@
                             android:id="@+id/food_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:text="0"
                             android:textColor="@android:color/black"
                             android:textSize="30sp"

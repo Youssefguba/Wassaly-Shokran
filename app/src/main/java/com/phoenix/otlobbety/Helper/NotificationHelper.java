@@ -25,7 +25,6 @@ public class NotificationHelper extends ContextWrapper {
         super(base);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Work just for API 26 or Higher
-
             createChannel();
         }
     }
